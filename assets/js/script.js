@@ -1,6 +1,9 @@
 //Selectors
 const startDateEl = document.querySelector("#start-date");
 const endDateEl = document.querySelector("#end-date");
+const welcomeEl = document.querySelector('#no-data');
+const dashboardEl = document.querySelector('#data');
+
 
 //Get users from local storage
 const getLocalUsers = () => {
@@ -39,4 +42,19 @@ const addTrip = () => {
 
 }
 
+$('.ui.accordion')
+.accordion({
+  selector: {
+    trigger: '.title .icon'
+  }
+})
+;
 
+//Find if any data in local storage 
+const data = localStorage.getItem('trips');
+if (data === null) {
+  $('#no-data').removeClass('hidden')
+} else {
+  $('#data').removeClass('hidden');
+  $('#no-data').addClass('hidden')
+}
