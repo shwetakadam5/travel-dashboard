@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Dashboard</title>
-  <link rel="stylesheet" href=".\assets\css\styles.css">
-</head>
-<body>
-  <header>
-    <h1>Travel Dashboard</h1>
-  </header>
-  
-  <div class="container">
-    <button class="add-button">Add User</button>
-    <button class="add-button">Add Travel</button>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Dashboard</title>
+    <link rel="stylesheet" href=".\assets\css\styles.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              green: "#4CAF50",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Travel Dashboard</h1>
+    </header>
 
-  <footer>
-    <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
-  </footer>
-</body>
+    <div class="container">
+      <button class="bg-green rounded p-4 text-white ">Add User</button>
+      <button class="add-button">Add Travel</button>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
+    </footer>
+    <script src="Assets/js/script.js"></script>
+  </body>
 </html>
