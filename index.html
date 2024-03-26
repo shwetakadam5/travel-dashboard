@@ -5,51 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Dashboard</title>
     <link rel="stylesheet" href=".\assets\css\styles.css" />
-    <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css"
->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css">
-<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
   </head>
   <body>
     <header>
       <h1>Travel Dashboard</h1>
     </header>
+    <main>
+      <div id="no-data" class="hidden">
+        <div class="container">
+          <h2>Welcome to your Travel Dashboard</h2>
+          <p>Add your travel partners details, then add trips to see them all in one place.</p>
+          <button id="add-user" class="add-button">Add User</button>
+          <button id="add-travel" class="add-button">Add Travel</button>
+        </div>
+      </div>
 
-    <div class="container">
-      <button class="bg-green rounded p-4 text-white ">Add User</button>
-      <button class="add-button">Add Travel</button>
-    </div>
-
-    <!-- Testing accordion -->
-    <div class="ui styled accordion">
-      <div class="active title">
-        <i class="dropdown icon"></i>
-        What is a dog?
+      <div id="data" class="hidden">
+        <div class="container">
+          <!-- Testing accordion -->
+          <div class="ui blue message">
+            <div class="ui basic accordion  ">
+              <div class="active title fixed-grid has-5-cols">
+                <div class="grid">
+                <p class="cell">Trip Name</p>
+                <p class="cell">Location</p>
+                <p class="cell">3 days to go</p>
+                <p class="cell">Sunny (icon)</p>
+                <i class="cell dropdown icon"></i> 
+              </div>
+              </div>
+              <div class="active content">
+                <p>
+                  A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a
+                  welcome guest in many households across the world.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="active content">
-        <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-      </div>
-      <div class="title">
-        <i class="dropdown icon"></i>
-        What kinds of dogs are there?
-      </div>
-      <div class="content">
-        <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
-      </div>
-      <div class="title">
-        <i class="dropdown icon"></i>
-        How do you acquire a dog?
-      </div>
-      <div class="content">
-        <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-        <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
-      </div>
-    </div>
-
+    </main>
     <footer>
       <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
     </footer>
