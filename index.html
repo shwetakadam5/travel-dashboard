@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Travel Dashboard</title>
-    <link rel="stylesheet" href=".\assets\css\styles.css" />
+    <link rel="stylesheet" href=".\Assets\css\styles.css" />
+    <script src="https://kit.fontawesome.com/a3a62ca005.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <link
@@ -16,7 +17,7 @@
   </head>
   <body>
     <header>
-      <h1>Travel Dashboard</h1>      
+      <h1>Travel Dashboard</h1>
     </header>
     <main>
       <div id="no-data" class="hidden">
@@ -29,27 +30,17 @@
       </div>
 
       <div id="data" class="hidden">
-        <div class="container">
-          <!-- Testing accordion -->
-          <div class="ui blue message">
-            <div class="ui basic accordion  ">
-              <div class="active title fixed-grid has-5-cols">
-                <div class="grid">
-                <p class="cell">Trip Name</p>
-                <p class="cell">Location</p>
-                <p class="cell">3 days to go</p>
-                <p class="cell">Sunny (icon)</p>
-                <i class="cell dropdown icon"></i> 
-              </div>
-              </div>
-              <div class="active content">
-                <p>
-                  A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a
-                  welcome guest in many households across the world.
-                </p>
-              </div>
+        <div id="trip-inner" class="container">
+          <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
+            <div class="grid">
+              <h4 class="cell d-heading">Trip Name</h4>
+              <h4 class="cell d-heading">Location</h4>
+              <h4 class="cell d-heading">Countdown</h4>
+              <h4 class="cell d-heading">Weather</h4>
             </div>
           </div>
+
+
         </div>
       </div>
     </main>
@@ -57,6 +48,7 @@
       <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
     <script src="Assets/js/script.js"></script>
   </body>
 </html>

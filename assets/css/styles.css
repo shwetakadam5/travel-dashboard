@@ -6,6 +6,11 @@ body {
     background-size: cover;
     background-position: center;
   }
+
+
+  :root {
+    --border-radius: 10px; 
+  }
   
   header {
     background-color: rgba(0, 0, 0, 0.7);
@@ -20,7 +25,7 @@ body {
   }
   
   .add-button {
-    background-color: #4CAF50;
+    background-color: #2a6c2c;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -50,4 +55,55 @@ body {
 
   .hidden {
     display: none;
+  }
+
+
+  /* -------------Dashboard Style-------------*/
+  h4:first-child.cell {
+    margin-top: calc(2rem - .1428571428571429em);
+  }
+
+  .ui.message p:first-child.cell {
+    margin-top: 0.75em;
+  }
+
+  .dashboard-heading.fixed-grid.has-5-cols {
+    padding: 1em 1.5em;
+    margin-bottom: 1rem;
+    border-radius: var(--border-radius);
+    box-shadow: 3px 3px 4px 0px rgba(0,0,0,0.2);
+
+
+  }
+
+  .cell.dropdown.icon {
+    justify-self: flex-end;
+    margin-top: 0.75em;
+  }
+
+  .title.fixed-grid.has-5-cols {
+    margin-bottom: 0;
+  }
+  .grid .cell.d-heading {
+    margin: 1rem 0;
+  }
+  p.card-header-title, img.card-header-title {
+    margin: 0;
+    justify-self: center;
+  }
+
+  .card-header.fixed-grid.has-5-cols .grid {
+    width: 100%;
+    
+  }
+  .grid .card-header-icon {
+    justify-content: flex-end;
+  }
+
+  .card-hidden {
+    display: none;
+  }
+
+  #data {
+    margin-top: 5rem;
   }
