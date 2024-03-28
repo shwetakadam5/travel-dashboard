@@ -148,3 +148,60 @@ $(".card-header-icon").on("click", (e) => {
 
 
 
+
+
+//Add User Code Starts - Shweta
+
+function addUser() {
+
+  // add code to validate and add user to local storage
+  console.log("In addUser function");
+  var valid = true; 
+  
+  if ( valid ) {    
+    dialog.dialog( "close" );
+  }
+  return valid;
+}
+
+
+$( "#add-user" ).button().on( "click", function() {
+  console.log("In event listener to open create user dialog");
+  dialog.dialog( "open" );
+});
+
+
+dialog = $("#dialog-form").dialog({
+  autoOpen: false,
+  height: 400,
+  width: 350,
+  modal: true,
+  buttons: {
+    Submit: addUser,
+    Cancel: function() {
+      console.log("In Cancel function");
+      dialog.dialog( "close" );
+    }
+  },
+  close: function() {
+    //add code to reset the form fields
+    console.log("In close function");
+  }
+});
+
+// When the page loads make the  date field a date picker
+$(document).ready(function () {
+
+  
+  //datepicker initialization (jQueryUI)
+  $('#task-due-date-input').datepicker({
+      changeMonth: true,
+      changeYear: true,
+  });
+
+  
+
+});
+
+
+//Add User Code Ends 
