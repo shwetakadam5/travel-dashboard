@@ -17,9 +17,6 @@ const getLocalTrips = () => {
   return trips;
 }
 
-
-
-
 const addUsers = () => {
   let users = getLocalUsers();
   //New user object
@@ -34,7 +31,6 @@ const addUsers = () => {
     userArr.push(newUser);
     localStorage.setItem("users", JSON.stringify(userArr));
   }
-
 
 }
 
