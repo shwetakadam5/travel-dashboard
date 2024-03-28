@@ -1,181 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Dashboard</title>
-   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <link rel="stylesheet" href=".\assets\css\styles.css" />
-  </head>
-  <body>
-    <header>
-      <h1>Travel Dashboard</h1>      
-    </header>
-    <main>
-      <div id="no-data" class="hidden">
-        <div class="container">
-          <h2>Welcome to your Travel Dashboard</h2>
-          <p>Add your travel partners details, then add trips to see them all in one place.</p>
-          <button id="add-user" class="add-button">Add User</button>
-          <!-- <button id="add-travel" class="add-button">Add Travel</button> -->
-          <button id="addTravelButton" class="add-button">Add Travel</button>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+  <link rel="stylesheet" href=".\assets\css\styles.css" />
+</head>
+
+<body>
+  <header>
+    <h1>Travel Dashboard</h1>
+  </header>
+  <main>
+    <div id="no-data" class="hidden">
+      <div class="container">
+        <h2>Welcome to your Travel Dashboard</h2>
+        <p>Add your travel partners details, then add trips to see them all in one place.</p>
+        <button id="add-user" class="add-button">Add User</button>
+        <!-- <button id="add-travel" class="add-button">Add Travel</button> -->
+        <button id="addTravelButton" class="add-button">Add Travel</button>
       </div>
+    </div>
 
-      <div id="data" class="hidden">
-        <div class="container">
-          <!-- Testing accordion -->
+    <div id="data" class="hidden">
+      <div class="container">
+        <!-- Testing accordion -->
 
-          <div class="ui blue message">
-            <div class="ui basic accordion  ">
-              <div class="active title fixed-grid has-5-cols">
-                <div class="grid">
+        <div class="ui blue message">
+          <div class="ui basic accordion  ">
+            <div class="active title fixed-grid has-5-cols">
+              <div class="grid">
                 <p class="cell">Trip Name</p>
                 <p class="cell">Location</p>
                 <p class="cell">3 days to go</p>
                 <p class="cell">Sunny (icon)</p>
-                <i class="cell dropdown icon"></i> 
+                <i class="cell dropdown icon"></i>
               </div>
-              </div>
-              <div class="active content">
-                <p>
-                  A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a
-                  welcome guest in many households across the world.
-                </p>
-              </div>
+            </div>
+            <div class="active content">
+              <p>
+                A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a
+                welcome guest in many households across the world.
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <div id="travelModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <!-- Add your form fields here -->
-          <!-- <label for="tripName">Trip Name:</label>
+    </div>
+    <div id="travelModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Add your form fields here -->
+        <!-- <label for="tripName">Trip Name:</label>
           <input type="text" id="tripName" name="tripName"> -->
-          <form>
-            <div class="" field">
-              <label class="label">Trip Name</label>
-              <div class="control">
-                <input type="text" class="input" placeholder="add a trip">
-              </div>
+        <form>
+          <div class="" field">
+            <label class="label">Trip Name</label>
+            <div class="control">
+              <input type="text" class="input" placeholder="add a trip">
             </div>
-            <div class="" field">
-              <label class="label">location</label>
-              <div class="control">
-                <input type="text" class="input" placeholder="location">
-              </div>
+          </div>
+          <div class="" field">
+            <label class="label">Location</label>
+            <div class="control">
+              <input type="text" class="input" placeholder="location">
             </div>
-            <div class="" field">
-              <div class="control mb-6">
-                <div class="select is-dark">
-                  <label for="users">Users:</label>
-                  <select id="users" name="users">
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
-                  </select>
-                  
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">User Name</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select>
+                      <option>jkjdkj sdjskja</option>
+                      <option>sjkajak uiuiweuw</option>
+                      <option>fjkasjfas ererr</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-            <div class="" field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  I agree to the <a href=""> terms & conditions</a>
-                </label>
-              </div>
             </div>
-          </form>
-  
-  
-          <label for="startDate">Start Date:</label>
-          <input type="date" id="startDate" name="startDate">
-  
-          <label for="endDate">End Date:</label>
-          <input type="date" id="endDate" name="endDate">
-  
-          <button id="submitTravel">Submit</button>
+          </div>
+          <div class="" field">
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox">
+                I agree to the <a href=""> terms & conditions</a>
+              </label>
+            </div>
+          </div>
+        </form>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label" for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+          </div>
         </div>
+        <label class="label" for="endDate">End Date:</label>
+        <input type="date" id="endDate" name="endDate"><br>
+
+        <button class="button is-primary" id="submitTravel">Submit</button>
       </div>
     </div>
+    </div>
+  </main>
 
+  <footer>
+    <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</body>
 
-
-    </main>
-
-    <!-- <div class="container"> -->
-      <!-- <button class="add-button">Add User</button> -->
-      <!-- <button class="add-button">Add Travel</button> -->
-  
-      <!-- Trigger/Open The Modal -->
-   
-  
-      <!-- The Modal -->
-      <!-- <div id="travelModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span> -->
-          <!-- Add your form fields here -->
-          <!-- <label for="tripName">Trip Name:</label>
-          <input type="text" id="tripName" name="tripName"> -->
-          <!-- <form>
-            <div class="" field">
-              <label class="label">Trip Name</label>
-              <div class="control">
-                <input type="text" class="input" placeholder="add a trip">
-              </div>
-            </div>
-            <div class="" field">
-              <label class="label">location</label>
-              <div class="control">
-                <input type="text" class="input" placeholder="location">
-              </div>
-            </div>
-            <div class="" field">
-              <div class="control mb-6">
-                <div class="select is-dark">
-                  <label for="users">Users:</label>
-                  <select id="users" name="users">
-                    <option value="a">a</option>
-                    <option value="b">b</option>
-                    <option value="c">c</option>
-                  </select>
-                  
-                </div>
-              </div>
-            <div class="" field">
-              <div class="control">
-                <label class="checkbox">
-                  <input type="checkbox">
-                  I agree to the <a href=""> terms & conditions</a>
-                </label>
-              </div>
-            </div>
-          </form>
-  
-  
-          <label for="startDate">Start Date:</label>
-          <input type="date" id="startDate" name="startDate">
-  
-          <label for="endDate">End Date:</label>
-          <input type="date" id="endDate" name="endDate">
-  
-          <button id="submitTravel">Submit</button>
-        </div>
-      </div>
-    </div> -->
-    <footer>
-      <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="Assets/js/script.js"></script>
-  </body>
 </html>
