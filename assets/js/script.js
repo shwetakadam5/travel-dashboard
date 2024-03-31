@@ -300,6 +300,8 @@ $(document).ready(function () {
   $('#user-dob').datepicker({
     changeMonth: true,
     changeYear: true,
+    yearRange: "-100:+0",
+    maxDate: '0',
   });
 });
 
