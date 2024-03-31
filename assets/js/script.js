@@ -15,21 +15,21 @@ const getLocalUsers = () => {
   return users;
 };
 
-const addUsers = () => {
+const addUsers = (newUserDetails) => {
   let users = getLocalUsers();
-  //New user object
-  const newUser = {};
+
   //check if anything saved in local
   if (users === null) {
-    users = localStorage.setItem("users", JSON.stringify([newUser]));
+    //New user object 
+    users = localStorage.setItem("users", JSON.stringify([newUserDetails]));
   } else if (Array.isArray(users)) {
     let userArr = users;
-    userArr.push(newUser);
+    userArr.push(newUserDetails);
     localStorage.setItem("users", JSON.stringify(userArr));
   }
 };
 
-const addTrip = () => {};
+const addTrip = () => { };
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -51,7 +51,7 @@ const calculateCountdown = (start) => {
 const getCoordinates = async (city) => {
   let cityName = city.toLowerCase();
   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`;
-   fetch(geoUrl)
+  fetch(geoUrl)
     .then(function (response) {
       return response.json();
     })
@@ -59,8 +59,8 @@ const getCoordinates = async (city) => {
       let coordinates = {
         lat: data[0].lat,
         lon: data[0].lon
-        }
-        return coordinates;
+      }
+      return coordinates;
     });
 };
 
@@ -80,14 +80,14 @@ const getCoordinates = async (city) => {
 //         icon = data.list[0].weather[0].icon;
 //         return icon;
 //       });
-      
+
 //   }
 // };
 
 
 
 //Dashboard - creating the cards
-const getLocalTrips =  () => {
+const getLocalTrips = () => {
   let savedTrips = JSON.parse(localStorage.getItem("trips"));
   let icons;
 
@@ -96,22 +96,22 @@ const getLocalTrips =  () => {
       let countdownTime = calculateCountdown(trip.start)
       const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${trip.location}&limit=1&appid=${API_KEY}`;
       let getIcon = await fetch(geoUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        return Promise.all(data.map(item => {
-          return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${item.lat}&lon=${item.lon}&units=metric&appid=${API_KEY}`)
-          .then(function(data) {
-            return data.json()
-          })
-        }));
-      }).then(function(data) {
-        let icon = data[0].list[0].weather[0].icon;
-        icons = icon
-        return icon
-      })
-  
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          return Promise.all(data.map(item => {
+            return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${item.lat}&lon=${item.lon}&units=metric&appid=${API_KEY}`)
+              .then(function (data) {
+                return data.json()
+              })
+          }));
+        }).then(function (data) {
+          let icon = data[0].list[0].weather[0].icon;
+          icons = icon
+          return icon
+        })
+
       console.log(getIcon)
 
       if (getIcon !== undefined) {
@@ -131,7 +131,7 @@ const getLocalTrips =  () => {
         header.append(grid)
         card.append(header)
         dashboardEl.append(card)
-  
+
       }
     })
   }
@@ -149,59 +149,148 @@ $(".card-header-icon").on("click", (e) => {
 
 
 
-
 //Add User Code Starts - Shweta
+
+
+const userFirstNameEl = $("#first-name");
+const userLastNameEl = $("#last-name");
+const userDateOfBirthEl = $("#user-dob");
+const userAddressEl = $("#user-address");
+const allFields = $([]).add(userFirstNameEl).add(userLastNameEl).add(userDateOfBirthEl).add(userAddressEl);
+const userErrMsgEl = $(".validateTips");
+const userSuccessMsgEl = $(".successMsg");
+
+
+
+
+
+function updateErrMsg(errMsg) {
+  console.log(errMsg);
+  userErrMsgEl
+    .text(errMsg)
+    .addClass("ui-state-highlight");
+  setTimeout(function () {
+    userErrMsgEl.removeClass("ui-state-highlight", 1500);
+  }, 500);
+}
+
+function checkLength(textInput, fieldName) {
+
+  if (textInput.val() == "") {
+    console.log("hiiiiiii" + textInput.val());
+    textInput.addClass("ui-state-error");
+    updateErrMsg(fieldName + " is required.");
+    return false;
+  } else if (textInput.val() == " ") {
+    textInput.addClass("ui-state-error");
+    updateErrMsg(fieldName + " must be valid");
+    return false;
+
+  } else {
+    return true;
+  }
+}
 
 function addUser() {
 
   // add code to validate and add user to local storage
   console.log("In addUser function");
-  var valid = true; 
-  
-  if ( valid ) {    
-    dialog.dialog( "close" );
+
+  var valid = true;
+  const isMinorAge = false;
+  allFields.removeClass("ui-state-error");
+  console.log(userFirstNameEl.val());
+  valid = valid && checkLength(userFirstNameEl, "First Name");
+  valid = valid && checkLength(userLastNameEl, "Last Name");
+  valid = valid && checkLength(userDateOfBirthEl, "Date of birth");
+  valid = valid && checkLength(userAddressEl, "Address");
+
+  if (valid) {
+    console.log("All form validations successful");
+    // age calc
+
+
+    const currentDate = dayjs(); // Current date
+
+    console.log(currentDate);
+    console.log(userDateOfBirthEl.val());
+
+    // Calculate the difference in years
+    const ageInYears = currentDate.diff(userDateOfBirthEl.val(), 'year');
+
+    if (ageInYears < 18) {
+      isMinorAge = true;
+    }
+
+    console.log(`The person's age is approximately ${ageInYears} years.`);
+
+
+    const newUserToCreate = {
+      userid: crypto.randomUUID(),
+      firstname: userFirstNameEl.val(),
+      lastname: userLastNameEl.val(),
+      dateofbirth: userDateOfBirthEl.val(),
+      address: userAddressEl.val(),
+      isminor: isMinorAge,
+    };
+
+    addUsers(newUserToCreate);
+
+    dialog.dialog("close");
   }
   return valid;
 }
 
 
-$( "#add-user" ).button().on( "click", function() {
+$("#add-user").button().on("click", function () {
   console.log("In event listener to open create user dialog");
-  dialog.dialog( "open" );
+  dialog.dialog("open");
 });
 
 
-dialog = $("#dialog-form").dialog({
+var dialog = $("#dialog-form").dialog({
   autoOpen: false,
-  height: 400,
-  width: 350,
+  height: 500,
+  width: 500,
   modal: true,
   buttons: {
     Submit: addUser,
-    Cancel: function() {
+    Cancel: function () {
       console.log("In Cancel function");
-      dialog.dialog( "close" );
+      dialog.dialog("close");
     }
   },
-  close: function() {
+  close: function () {
     //add code to reset the form fields
     console.log("In close function");
+    console.log(userform[0]);
+    userform[0].reset();
+    allFields.removeClass("ui-state-error");
+
+    userErrMsgEl.text("All form fields are required.");
+    userSuccessMsgEl.attr("display", "block");
+
+
   }
 });
 
+var userform = dialog.find("form").on("submit", function (event) {
+  event.preventDefault();
+  addUser();
+});
+
+
 // When the page loads make the  date field a date picker
 $(document).ready(function () {
-
-  
   //datepicker initialization (jQueryUI)
-  $('#task-due-date-input').datepicker({
-      changeMonth: true,
-      changeYear: true,
+  $('#user-dob').datepicker({
+    changeMonth: true,
+    changeYear: true,
   });
-
-  
-
 });
+
+
+
 
 
 //Add User Code Ends 
