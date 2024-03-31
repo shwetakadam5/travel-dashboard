@@ -197,7 +197,7 @@ function addUser() {
   console.log("In addUser function");
 
   var valid = true;
-  const isMinorAge = false;
+  var isMinorAge = false;
   allFields.removeClass("ui-state-error");
   console.log(userFirstNameEl.val());
   valid = valid && checkLength(userFirstNameEl, "First Name");
