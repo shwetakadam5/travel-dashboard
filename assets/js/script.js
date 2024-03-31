@@ -7,7 +7,7 @@ const dashboardEl = document.querySelector('#data');
 
 //Get users from local storage
 const getLocalUsers = () => {
-  const users = JSON.parse(localStorage.getItem("users"));
+  const users = JSON.parse(localStorage.getItem("users")) ||[];
   return users;
 }
 
@@ -21,7 +21,7 @@ const addUsers = () => {
   let users = getLocalUsers();
   //New user object
   const newUser = {
-
+userName
   }
   //check if anything saved in local
   if (users === null) {
@@ -33,7 +33,13 @@ const addUsers = () => {
   }
 
 }
-
+const users = JSON.parse(localStorage.getItem("users")) ||[];
+for (let index = 0; index < users.length; index++) {
+let option=document.createElement("option")
+option.textContent=users[index]
+document.querySelector("#users").appendChild(option)
+  
+}
 const addTrip = () => {
 
 }
@@ -69,6 +75,18 @@ btn.onclick = function () {
     modal.style.display = "block";
 };
 
+//
+
+document.querySelector("#submitTravel").addEventListener("click",function(){
+  let user = document.querySelector("#users").value
+  let userTrips = JSON.parse(localStorage.getItem(user)) || []
+  let newTrip = JSON.stringify({tripName:document.querySelector("#tripName").value.trim(), locationName:document.querySelector("#locationName").value.trim(), username:document.querySelector("#users").value, startDate:document.querySelector("#startDate").value, endDate:document.querySelector("#endDate").value})
+  userTrips.push(newTrip)
+  localStorage.setItem(document.querySelector("#users").value, newTrip)
+})
+
+
+
 // When the user clicks on <span> (x), close the modal
 closeBtn.onclick = function () {
     modal.style.display = "none";
@@ -81,10 +99,10 @@ window.onclick = function (event) {
     }
 };
 
-// Populate the users dropdown from local storage (you'll need to implement this)
+// Populate the users dropdown from local storage 
 // Example:
 const usersDropdown = document.getElementById("users");
-const savedUsers = JSON.parse(localStorage.getItem("users"));
+const savedUsers = JSON.parse(localStorage.getItem("userArr"))|| []
 
 for (let i = 0; i < savedUsers.length; i++) {
     const option = document.createElement('option');
@@ -93,7 +111,7 @@ for (let i = 0; i < savedUsers.length; i++) {
     selectElement.appendChild(option); // Add the option to the select
 }
 
-// Handle form submission (you'll need to implement this)
+// Handle form submission 
 const submitButton = document.getElementById("submitTravel");
 submitButton.addEventListener("click", function () {
     // Get form values and save to local storage
