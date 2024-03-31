@@ -156,10 +156,14 @@ const userFirstNameEl = $("#first-name");
 const userLastNameEl = $("#last-name");
 const userDateOfBirthEl = $("#user-dob");
 const userAddressEl = $("#user-address");
+const userCityEl = $("#user-city");
+const userCountryEl = $("#user-country");
+const userZipCodeEl = $("#user-zipcode");
+
 const allFields = $([]).add(userFirstNameEl).add(userLastNameEl).add(userDateOfBirthEl).add(userAddressEl);
 const userErrMsgEl = $(".validateTips");
 const userSuccessMsgEl = $(".successMsg");
-
+const MINOR_AGE_LIMIT = 12;
 
 
 
@@ -191,6 +195,8 @@ function checkLength(textInput, fieldName) {
   }
 }
 
+
+
 function addUser() {
 
   // add code to validate and add user to local storage
@@ -204,6 +210,11 @@ function addUser() {
   valid = valid && checkLength(userLastNameEl, "Last Name");
   valid = valid && checkLength(userDateOfBirthEl, "Date of birth");
   valid = valid && checkLength(userAddressEl, "Address");
+  valid = valid && checkLength(userCityEl, "City");
+  valid = valid && checkLength(userCountryEl, "Country");
+  valid = valid && checkLength(userZipCodeEl, "Zip Code");
+
+
 
   if (valid) {
     console.log("All form validations successful");
@@ -218,11 +229,11 @@ function addUser() {
     // Calculate the difference in years
     const ageInYears = currentDate.diff(userDateOfBirthEl.val(), 'year');
 
-    if (ageInYears < 18) {
+    if (ageInYears < MINOR_AGE_LIMIT) {
       isMinorAge = true;
     }
 
-    console.log(`The person's age is approximately ${ageInYears} years.`);
+    console.log(`The person's age is approximately ${ageInYears} years and is minor check: ${isMinorAge}`);
 
 
     const newUserToCreate = {
@@ -231,6 +242,9 @@ function addUser() {
       lastname: userLastNameEl.val(),
       dateofbirth: userDateOfBirthEl.val(),
       address: userAddressEl.val(),
+      usercity: userCityEl.val(),
+      usercountry: userCountryEl.val(),
+      userzipcode: userZipCodeEl.val(),
       isminor: isMinorAge,
     };
 
@@ -250,7 +264,7 @@ $("#add-user").button().on("click", function () {
 
 var dialog = $("#dialog-form").dialog({
   autoOpen: false,
-  height: 500,
+  height: 525,
   width: 500,
   modal: true,
   buttons: {
