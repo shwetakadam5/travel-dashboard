@@ -311,6 +311,7 @@ let dialog = $("#dialog-form").dialog({
   height: 525,
   width: 500,
   modal: true,
+  responsive: true,
   buttons: {
     Submit: addUser,
     Cancel: function () {
@@ -428,3 +429,7 @@ async function initMap() {
   // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
   // Add other bootstrap parameters as needed, using camel case.
 });
+
+
+
+
