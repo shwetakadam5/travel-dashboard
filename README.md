@@ -99,24 +99,24 @@ THEN the saved tasks persist
 
 _List your collaborators, if any, with links to their GitHub profiles:_ NA
 
-https://github.com/shwetakadam5
-https://github.com/gaylemcclure
-https://github.com/RasXBer
+- https://github.com/shwetakadam5
+- https://github.com/gaylemcclure
+- https://github.com/RasXBer
 
 
 
 _If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section:_
 
-https://bulma.io/documentation/elements/title/
-https://jqueryui.com/
-https://day.js.org/
-https://openweathermap.org/api
-https://developers.google.com/maps/documentation/javascript
+- https://bulma.io/documentation/elements/title/
+- https://jqueryui.com/
+- https://day.js.org/
+- https://openweathermap.org/api
+- https://developers.google.com/maps/documentation/javascript
 
 
 _If you followed tutorials, include links to those here as well :_ NA
 
-https://developers.google.com/maps/documentation/javascript/adding-a-google-map
+- https://developers.google.com/maps/documentation/javascript/adding-a-google-map
 
 ## License
 
