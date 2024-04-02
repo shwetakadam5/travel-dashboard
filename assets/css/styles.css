@@ -53,12 +53,11 @@ footer {
   width: 100%;
 }
 
-.hidden {
-  display: none;
-}
-
-
-/* The Modal (background) */
+  .hidden {
+    display: none;
+  }
+  
+  /* The Modal (background) */
 .modal {
   display: none;
   position: fixed;
