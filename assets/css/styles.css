@@ -53,11 +53,11 @@ footer {
   width: 100%;
 }
 
-  .hidden {
-    display: none;
-  }
-  
-  /* The Modal (background) */
+.hidden {
+  display: none;
+}
+
+/* The Modal (background) */
 .modal {
   display: none;
   position: fixed;
@@ -147,3 +147,73 @@ img.card-header-title {
 #data {
   margin-top: 5rem;
 }
+
+/* Added for user Shweta */
+#user-dob {
+  z-index: 101;
+}
+
+
+.successMsg {
+  display: none;
+  background-color: green;
+  color: white;
+}
+
+/* .modal-content {
+  max-width: 30rem;
+  max-height: 55rem;
+} */
+
+
+#map {
+  height: 400px;
+  width: 100%;
+}
+
+/* 
+
+@media (max-width: 690px) {
+
+  #dialog-form.modal {
+
+    height: 560px !important;
+
+  }
+
+  div {
+    width: 360px;
+  }
+
+  #first-name,
+  #last-name,
+  #user-dob,
+  #user-address,
+  #user-city,
+  #user-country,
+  #user-zipcode {
+    width: 320px;
+  }
+}
+
+@media (max-width: 500px) {
+
+  #dialog-form.modal {
+    height: 560px !important;
+
+  }
+
+  div {
+    width: 360px;
+  }
+
+  #first-name,
+  #last-name,
+  #user-dob,
+  #user-address,
+  #user-city,
+  #user-country,
+  #user-zipcode {
+    width: 320px;
+  }
+} */
