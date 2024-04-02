@@ -264,7 +264,7 @@ const calculateDistance = async () => {
       ]
     }
   };
-  
+
   try {
     const response = await axios.request(options);
     let time = response.data.route.car.duration;
@@ -305,18 +305,18 @@ getLocalTrips();
 
 
 //Event handler for opening the accordion. Checks if main button is clicked, or just the icon
-$('#data').on("click",function(e) {
-    if(e.target.id === "open-icon") {
-      const cardData = $(`#${e.target.value}`);
-      cardData.toggleClass("hidden")
-      console.log(e)
+$('#data').on("click", function (e) {
+  if (e.target.id === "open-icon") {
+    const cardData = $(`#${e.target.value}`);
+    cardData.toggleClass("hidden")
+    console.log(e)
 
-    } 
-    else if (e.target.id === "down-icon") {
-      const iconData = $(`#${e.target.attributes[2].value}`)
-      iconData.toggleClass("hidden")
-    }
-  });
+  }
+  else if (e.target.id === "down-icon") {
+    const iconData = $(`#${e.target.attributes[2].value}`)
+    iconData.toggleClass("hidden")
+  }
+});
 
 
 //Add User Code Starts - Shweta
@@ -475,10 +475,12 @@ $("#add-user").button().on("click", function () {
 
 let dialog = $("#dialog-form").dialog({
   autoOpen: false,
-  height: 525,
-  width: 500,
+  height: "auto",
+  width: "auto",
   modal: true,
   responsive: true,
+  resizable: true,
+  position: { my: "center", at: "top" }, // Center vertically
   buttons: {
     Submit: addUser,
     Cancel: function () {
