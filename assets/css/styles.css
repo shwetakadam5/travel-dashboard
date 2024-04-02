@@ -216,4 +216,15 @@ img.card-header-title {
   #user-zipcode {
     width: 320px;
   }
+<<<<<<< HEAD
+
+  #data {
+    margin-top: 5rem;
+  }
+
+  .grid:not(:last-child) {
+    margin-bottom: 0;
+  }
+=======
 } */
+>>>>>>> 266d793c4270c870def6eb66ea213a3bdf44c630
