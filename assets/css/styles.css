@@ -107,3 +107,7 @@ body {
   #data {
     margin-top: 5rem;
   }
+
+  .grid:not(:last-child) {
+    margin-bottom: 0;
+  }
