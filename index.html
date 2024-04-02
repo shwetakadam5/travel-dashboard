@@ -39,6 +39,7 @@
             <div class="control">
               <input class="input" type="text" placeholder="Text input">
             </div>
+
           </div>
 
           <div class="field">
@@ -79,7 +80,70 @@
         </div>
       </div>
     </div>
+
+    <div id="travelModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- Add your form fields here -->
+        <!-- <label for="tripName">Trip Name:</label>
+          <input type="text" id="tripName" name="tripName"> -->
+        <form>
+          <div class=" field">
+            <label class="label">Trip Name</label>
+            <div class="control">
+              <input type="text" class="input" id="tripName" placeholder="Enter trip name">
+            </div>
+          </div>
+          <div class=" field">
+            <label class="label">Location</label>
+            <div class="control">
+              <input type="text" class="input" id="locationName" placeholder="Enter Location">
+            </div>
+          </div>
+          <!-- user name fields here -->
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">User Name</label>
+            </div>
+            <div class="field-body">
+              <div class="field is-narrow">
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="users">
+                      <option>jkjdkj sdjskja</option>
+                      <option >sjkajak uiuiweuw</option>
+                      <option>fjkasjfas ererr</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <label class="checkbox">
+                <input type="checkbox">
+                I agree to the <a href=""> terms & conditions</a>
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate">
+          </div>
+          <!-- </div>
+          </div> -->
+          <div class="field">
+            <label class="label" for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate"><br>
+          </div>
+          <button class="button is-primary" id="submitTravel">Submit</button>
+        </form>
+      </div>
+    </div>
+
   </main>
+
   <footer>
     <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
   </footer>
