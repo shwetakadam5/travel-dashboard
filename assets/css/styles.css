@@ -53,11 +53,11 @@ footer {
   width: 100%;
 }
 
-  .hidden {
-    display: none;
-  }
-  
-  /* The Modal (background) */
+.hidden {
+  display: none;
+}
+
+/* The Modal (background) */
 .modal {
   display: none;
   position: fixed;
@@ -160,10 +160,10 @@ img.card-header-title {
   color: white;
 }
 
-.modal-content {
+/* .modal-content {
   max-width: 30rem;
   max-height: 55rem;
-}
+} */
 
 
 #map {
@@ -171,7 +171,7 @@ img.card-header-title {
   width: 100%;
 }
 
-
+/* 
 
 @media (max-width: 690px) {
 
@@ -216,4 +216,4 @@ img.card-header-title {
   #user-zipcode {
     width: 320px;
   }
-}
+} */

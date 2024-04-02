@@ -11,7 +11,7 @@ const API_KEY = "57693c20cc9de93006be32fd645ff9bb";
 
 //Function to get users from local storage
 const getLocalUsers = () => {
-  const users = JSON.parse(localStorage.getItem("users")) ||[];
+  const users = JSON.parse(localStorage.getItem("users")) || [];
   return users;
 }
 
@@ -35,14 +35,6 @@ const addUsers = (newUserDetails) => {
 };
 
 
-
-const users = JSON.parse(localStorage.getItem("users")) ||[];
-for (let index = 0; index < users.length; index++) {
-let option=document.createElement("option")
-option.textContent=users[index]
-document.querySelector("#users").appendChild(option)
-  
-}
 const addTrip = () => {
 
 }
@@ -73,22 +65,24 @@ const btn = document.getElementById("addTravelButton");
 // Get the <span> element that closes the modal
 const closeBtn = document.getElementsByClassName("close")[0];
 
-// When the user clicks on the button, open the modal
-btn.onclick = function () {
-    modal.style.display = "block";
-};
+// // When the user clicks on the button, open the modal
+// btn.onclick = function () {
+//   modal.style.display = "block";
+// };
 
-//
-
-document.querySelector("#submitTravel").addEventListener("click",function(){
-  let user = document.querySelector("#users").value
-  let userTrips = JSON.parse(localStorage.getItem(user)) || []
-  let newTrip = JSON.stringify({tripName:document.querySelector("#tripName").value.trim(), locationName:document.querySelector("#locationName").value.trim(), username:document.querySelector("#users").value, startDate:document.querySelector("#startDate").value, endDate:document.querySelector("#endDate").value})
-  userTrips.push(newTrip)
-  localStorage.setItem(document.querySelector("#users").value, newTrip)
-})
+// //
 
 
+// const handleTripPlanSubmit = () => {
+// document.querySelector("#submitTravel").addEventListener("click", function () {
+//   let user = document.querySelector("#users").value
+//   let userTrips = JSON.parse(localStorage.getItem(user)) || []
+//   let newTrip = JSON.stringify({ tripName: document.querySelector("#tripName").value.trim(), locationName: document.querySelector("#locationName").value.trim(), username: document.querySelector("#users").value, startDate: document.querySelector("#startDate").value, endDate: document.querySelector("#endDate").value })
+//   userTrips.push(newTrip)
+//   localStorage.setItem(document.querySelector("#users").value, newTrip)
+// })
+
+//}
 
 // // When the user clicks on <span> (x), close the modal
 // closeBtn.onclick = function () {
