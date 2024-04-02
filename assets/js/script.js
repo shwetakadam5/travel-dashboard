@@ -11,9 +11,11 @@ const API_KEY = "57693c20cc9de93006be32fd645ff9bb";
 
 //Function to get users from local storage
 const getLocalUsers = () => {
-  const users = JSON.parse(localStorage.getItem("users"));
+  const users = JSON.parse(localStorage.getItem("users")) ||[];
   return users;
-};
+}
+
+
 
 
 //Function to save the users to the local storage.
@@ -32,13 +34,100 @@ const addUsers = (newUserDetails) => {
   }
 };
 
-const addTrip = () => { };
 
-//Find if any data in local storage
-const data = localStorage.getItem("trips");
+
+const users = JSON.parse(localStorage.getItem("users")) ||[];
+for (let index = 0; index < users.length; index++) {
+let option=document.createElement("option")
+option.textContent=users[index]
+document.querySelector("#users").appendChild(option)
+  
+}
+const addTrip = () => {
+
+}
+
+$('.ui.accordion')
+  .accordion({
+    selector: {
+      trigger: '.title .icon'
+    }
+  })
+  ;
+
+//Find if any data in local storage 
+const data = localStorage.getItem('trips');
 if (data === null) {
   $("#no-data").removeClass("hidden");
 } else {
+  $('#data').removeClass('hidden');
+  $('#no-data').addClass('hidden')
+}
+
+// Get the modal element
+const modal = document.getElementById("travelModal");
+
+// Get the button that opens the modal
+const btn = document.getElementById("addTravelButton");
+
+// Get the <span> element that closes the modal
+const closeBtn = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+    modal.style.display = "block";
+};
+
+//
+
+document.querySelector("#submitTravel").addEventListener("click",function(){
+  let user = document.querySelector("#users").value
+  let userTrips = JSON.parse(localStorage.getItem(user)) || []
+  let newTrip = JSON.stringify({tripName:document.querySelector("#tripName").value.trim(), locationName:document.querySelector("#locationName").value.trim(), username:document.querySelector("#users").value, startDate:document.querySelector("#startDate").value, endDate:document.querySelector("#endDate").value})
+  userTrips.push(newTrip)
+  localStorage.setItem(document.querySelector("#users").value, newTrip)
+})
+
+
+
+// // When the user clicks on <span> (x), close the modal
+// closeBtn.onclick = function () {
+//   modal.style.display = "none";
+// };
+
+// // When the user clicks anywhere outside of the modal, close it
+// window.onclick = function (event) {
+//   if (event.target === modal) {
+//     modal.style.display = "none";
+//   }
+// };
+
+// Populate the users dropdown from local storage 
+// Example:
+const handleSelectUsers = () => {
+
+
+  const usersDropdown = document.getElementById("#users");
+  const savedUsers = JSON.parse(localStorage.getItem("users"));
+
+  for (let i = 0; i < savedUsers.length; i++) {
+    const option = document.createElement('option');
+    option.value = savedUsers[i]; // Set the value (you can use department IDs if needed)
+    option.textContent = savedUsers[i]; // Set the display text
+    usersDropdown.appendChild(option); // Add the option to the select
+  }
+}
+
+const handleTravelPlanSubmit = () => {
+
+
+  // Handle form submission (you'll need to implement this)
+  const submitButton = document.getElementById("#submitTravel");
+  submitButton.addEventListener("click", function () {
+    // Get form values and save to local storage
+    // ...
+    // Close the modal
+  });
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 }
