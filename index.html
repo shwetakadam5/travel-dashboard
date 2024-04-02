@@ -1,37 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Travel Dashboard</title>
-    <link rel="stylesheet" href=".\assets\css\styles.css" />
-    <script src="https://kit.fontawesome.com/a3a62ca005.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
-    <!-- <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSGf6-LnqBBH9jGh_W2Irz3_DVhtad92s&loading=async&callback=initMap">
-</script> -->
-  </head>
-  <body>
-    <header>
-      <h1>Travel Dashboard</h1>
-    </header>
-    <main>
-      <div id="no-data" class="hidden">
-        <div class="container">
-          <h2>Welcome to your Travel Dashboard</h2>
-          <p>Add your travel partners details, then add trips to see them all in one place.</p>
-          <button id="add-user" class="add-button">Add User</button>
-          <button id="add-travel" class="add-button">Add Travel</button>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Dashboard</title>
+  <script src="https://kit.fontawesome.com/a3a62ca005.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.9.3/dist/semantic.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v6.2.0/js/all.js"></script>
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+
+<body>
+  <header>
+    <h1>Travel Dashboard</h1>
+  </header>
+  <main>
+    <div id="no-data" class="hidden">
+      <div class="container">
+        <h2>Welcome to your Travel Dashboard</h2>
+        <p>Add your travel partners details, then add trips to see them all in one place.</p>
+        <div id="map"></div>
+        <button id="add-user" class="add-button">Add User</button>
+        <button id="add-travel" class="add-button">Add Travel</button>
+        <p class="successMsg">User successfully created. User
+          can be added in
+          Travel Plan</p>
+      </div>
+    </div>
+    <!-- Start Created a modal with a form to add users -->
+
+    <div id="dialog-form" class="modal" title="Create new user">
+      <div class="modal-background">
+        <div class="modal-content">
+          <p class="validateTips" style="color: white;">All form fields are required.</p>
+          <form id="user-form">
+            <div>
+
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <div class="field">
+                      <label class="label">First Name</label>
+                      <div class="control">
+                        <input id="first-name" class="input" type="text" name="firstname" placeholder="First Name"
+                          title="First Name" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="field">
+                      <label class="label">Last Name</label>
+                      <div class="control">
+                        <input id="last-name" class="input" type="text" name="lastname" placeholder="Last Name"
+                          title="Last Name" required>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Date of birth</label>
+                <div class="control">
+                  <input id="user-dob" class="input" type="text" name="userdob" placeholder="Date of birth"
+                    title="Date of birth" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Address</label>
+                <div class="control">
+                  <textarea id="user-address" class="input" name="useraddress1" placeholder="e.g. Street No and Name"
+                    title="Address" required></textarea>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">City</label>
+                <div class="control">
+                  <input id="user-city" class="input" type="text" name="city" placeholder="City" title="e.g. Melbourne"
+                    required>
+                </div>
+              </div>
+              <div class="level">
+                <div class="level-left">
+                  <div class="level-item">
+                    <div class="field">
+                      <label class="label">Country</label>
+                      <div class="control">
+                        <input id="user-country" class="input" type="text" name="country" placeholder="e.g. Australia"
+                          title="Country" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="level-right">
+                  <div class="level-item">
+                    <div class="field">
+                      <label class="label">Zip Code</label>
+                      <div class="control">
+                        <input id="user-zipcode" class="input" type="text" name="zipcode" placeholder="e.g. 3133"
+                          title="Zip Code" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            </div>
+
+          </form>
+
         </div>
       </div>
 
+      <!-- Start Created a modal with a form to add users -->
       <div id="data" class="hidden">
         <div id="trip-inner" class="container">
           <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
@@ -42,18 +134,22 @@
               <h4 class="cell d-heading">Weather</h4>
             </div>
           </div>
-
-
         </div>
       </div>
-    </main>
-    <footer>
-      <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </main>
 
-    <script src="./assets/js/script.js"></script>
-  </body>
+  <footer>
+    <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+
+  <script src="assets/js/script.js"></script>
+</body>
+
 </html>
