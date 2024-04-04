@@ -53,40 +53,56 @@ if (data === null) {
 const modal = document.getElementById("travelModal");
 
 // Get the button that opens the modal
-const btn = document.getElementById("addTravelButton");
+const btn = document.getElementById("add-travel");
+const travelModal = document.getElementById("travelModal");
+
 
 // Get the <span> element that closes the modal
-const closeBtn = document.getElementsByClassName("close")[0];
+const closeBtnUser = document.getElementsByClassName("close")[0];
+const closeBtnTravel = document.querySelector(".Travelclose");
+closeBtnTravel.addEventListener("click",function () {
+  document.querySelector("#tripName").value=""
+  document.querySelector("#locationName").value=""
+  document.querySelector("#startDate").value=""
+  document.querySelector("#endDate").value=""
+  travelModal.style.display = "none";
+})
+// btn.addEventListener("click", function() {
+// // Your custom logic or actions here
+// console.log("Button clicked!"); // Example: Log a message when the button is clicked
+// });
 
-// // When the user clicks on the button, open the modal
-// btn.onclick = function () {
-//   modal.style.display = "block";
-// };
-
-// //
+// Event listener for button click
+btn.addEventListener("click", function() {
+  // Show the modal (make it visible)
+  travelModal.style.display = "block";
+  let users = JSON.parse(localStorage.getItem("users"))|| []
+  for (let index = 0; index < users.length; index++) {
+    console.log(users)
+    let userName = users[index].firstname + " " +users[index].lastname;
+    let option=document.createElement("option")
+    option.textContent=userName
+    option.classList.add("isminor"+users[index].isminor)
+    document.querySelector("#users").appendChild(option)
+  }
+});
 
 // const handleTripPlanSubmit = () => {
-// document.querySelector("#submitTravel").addEventListener("click", function () {
-//   let user = document.querySelector("#users").value
-//   let userTrips = JSON.parse(localStorage.getItem(user)) || []
-//   let newTrip = JSON.stringify({ tripName: document.querySelector("#tripName").value.trim(), locationName: document.querySelector("#locationName").value.trim(), username: document.querySelector("#users").value, startDate: document.querySelector("#startDate").value, endDate: document.querySelector("#endDate").value })
-//   userTrips.push(newTrip)
-//   localStorage.setItem(document.querySelector("#users").value, newTrip)
-// })
+document.querySelector("#submitTravel").addEventListener("click", function () {
+  let user = document.querySelector("#users").value
+  let userTrips = JSON.parse(localStorage.getItem(user)) || []
+  let newTrip = { tripName: document.querySelector("#tripName").value, locationName: document.querySelector("#locationName").value.trim(), username: document.querySelector("#users").value, startDate: document.querySelector("#startDate").value, endDate: document.querySelector("#endDate").value }
+  if (!userTrips.includes(document.querySelector("#tripName").value)) {
+  userTrips.push(document.querySelector("#tripName").value)
+  userTrips.push(newTrip)
+  localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
+  document.querySelector("#tripName").value=""
+  document.querySelector("#locationName").value=""
+  document.querySelector("#startDate").value=""
+  document.querySelector("#endDate").value=""
+}
+})
 
-//}
-
-// // When the user clicks on <span> (x), close the modal
-// closeBtn.onclick = function () {
-//   modal.style.display = "none";
-// };
-
-// // When the user clicks anywhere outside of the modal, close it
-// window.onclick = function (event) {
-//   if (event.target === modal) {
-//     modal.style.display = "none";
-//   }
-// };
 
 // Populate the users dropdown from local storage
 // Example:
