@@ -38,7 +38,7 @@ const addUsers = (newUserDetails) => {
 };
 
 //--------------------Trip-----------------------------
-const addTrip = () => {};
+const addTrip = () => { };
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -323,6 +323,7 @@ const handleSortTrip = (trips) => {
       return 0;
     });
   }
+
   return uniqueArr;
 };
 
@@ -425,7 +426,7 @@ const createDashboard = async () => {
     //Create the content
     const content = $("<div></div>").addClass("card-content hidden").attr("id", trip.id).appendTo(card);
     const contentInner = $("<div></div>").addClass("content level").appendTo(content);
-    
+
     //The User left side
     const userInner = $("<div></div>").addClass("content level-left has-background-primary-light p-5").appendTo(contentInner);
     $("<h4></h4>").addClass("mt-1 is-size-3").text("Travel Partners").appendTo(userInner);
@@ -458,19 +459,19 @@ const createDashboard = async () => {
         $("<p></p>").addClass("cell mode").text(travel.mode).appendTo(userDiv);
         $("<p></p>").addClass("cell duration").attr("id", "duration").text(travel.time).appendTo(userDiv);
       });
-    //The activities right side
-    const activityInner = $("<div></div>").addClass("content level-right has-background-primary-dark p-5").appendTo(contentInner);
-    $("<h4></h4>").addClass("mt-1 is-size-3").text("Activity Ideas").appendTo(activityInner);
-    const activityul = $("<ul></ul>").addClass("").appendTo(activityInner);
+      //The activities right side
+      const activityInner = $("<div></div>").addClass("content level-right has-background-primary-dark p-5").appendTo(contentInner);
+      $("<h4></h4>").addClass("mt-1 is-size-3").text("Activity Ideas").appendTo(activityInner);
+      const activityul = $("<ul></ul>").addClass("").appendTo(activityInner);
 
-    activities.data.map(activity => {
-      console.log(activity)
-      $("<li></li>").addClass("sight").text(`${activity.name} - ${activity.tags[0]}`).appendTo(activityul);
-    })
+      activities.data.map(activity => {
+        console.log(activity)
+        $("<li></li>").addClass("sight").text(`${activity.name} - ${activity.tags[0]}`).appendTo(activityul);
+      })
 
 
 
-  }
+    }
   });
 };
 
@@ -687,6 +688,11 @@ async function initMap() {
 
   let addedUsers = getLocalUsers(); //retrieve the users from localstorage
 
+  //To enable the add travel button if atleast one user is available.
+  if (addedUsers.length != 0) {
+    $("#add-travel").removeAttr("disabled");
+  }
+
   // Request libraries when needed, not in the script tag.
   let { Map } = await google.maps.importLibrary("maps");
   let { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
@@ -702,8 +708,7 @@ async function initMap() {
     for (const user of addedUsers) {
       addMapMarkers({
         locationcoords: new google.maps.LatLng(user.userlocationcoordinates.lat, user.userlocationcoordinates.lon),
-        //markerimg: "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png",
-        // titleTxt: user.firstname,
+        markerimg: "./assets/images/userlocationpin.png",
         markerInfo: "Info ( User Name : " + user.firstname + " " + user.lastname + " & City : " + user.usercity + " )",
       });
     }

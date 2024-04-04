@@ -21,34 +21,40 @@
     <h1>Travel Dashboard</h1>
   </header>
   <main>
-    <button id="add-user" class="add-button has-background-link">Add User</button>
-    <button id="add-travel" class="add-button has-background-link">Add Travel</button>
+    <button id="add-user" type="button" class="add-button has-background-link">Add User</button>
+    <button id="add-travel" class="add-button has-background-link" disabled>Add Travel</button>
 
     <div id="no-data" class="hidden">
       <div class="container">
         <h2>Welcome to your Travel Dashboard</h2>
         <p>Add your travel partners details, then add trips to see them all in one place.</p>
         <div id="map"></div>
-        <p class="successMsg">User successfully created. User
-          can be added in
-          Travel Plan</p>
       </div>
     </div>
 
-      <div id="data" class="hidden">
-        <div id="trip-inner" class="container">
-          <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
-            <div class="grid">
-              <button id="tripName" class="sort-button"><h4 class="cell d-heading">Trip Name<i id="icon-tripName" class="fa-solid fa-arrow-down-long hidden"></i></h4></button>
-              <button id="location" class="sort-button"><h4 class="cell d-heading">Location<i id="icon-location" class="fa-solid fa-arrow-down-long hidden"></i></h4></button>
-              <button id="countdown" class="sort-button"><h4 class="cell d-heading">Countdown<i id="icon-countdown" class="fa-solid fa-arrow-down-long hidden"></i></h4></button>
-              <h4 class="cell d-heading">Weather</h4>
-            </div>
-            
+    <div id="data" class="hidden">
+      <div id="trip-inner" class="container">
+        <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
+          <div class="grid">
+            <button id="tripName" class="sort-button">
+              <h4 class="cell d-heading">Trip Name<i id="icon-tripName" class="fa-solid fa-arrow-down-long hidden"></i>
+              </h4>
+            </button>
+            <button id="location" class="sort-button">
+              <h4 class="cell d-heading">Location<i id="icon-location" class="fa-solid fa-arrow-down-long hidden"></i>
+              </h4>
+            </button>
+            <button id="countdown" class="sort-button">
+              <h4 class="cell d-heading">Countdown<i id="icon-countdown" class="fa-solid fa-arrow-down-long hidden"></i>
+              </h4>
+            </button>
+            <h4 class="cell d-heading">Weather</h4>
           </div>
-          <div class="all-trips" id="all-trips"></div>
+
         </div>
+        <div class="all-trips" id="all-trips"></div>
       </div>
+    </div>
 
     <!-- Start Created a modal with a form to add users -->
 
@@ -155,8 +161,8 @@
       </div>
     </div>
 
-      <!-- End Created a modal with a form to add users -->
-      
+    <!-- End Created a modal with a form to add users -->
+
     <div id="travelModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
