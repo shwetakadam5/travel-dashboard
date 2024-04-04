@@ -392,6 +392,7 @@ const createDashboard = async () => {
     } else if (trip.status === "completed") {
       countdownTime = "Completed";
     }
+<<<<<<< HEAD
     //Create the card
     const card = $("<div></div>").addClass("card fixed-grid has-5-cols").attr("id", "travel-card").appendTo(dashboardEl);
     //Create the header
@@ -404,6 +405,18 @@ const createDashboard = async () => {
       $("<i></i>").addClass("fa-solid fa-circle-check").appendTo(status);
     } else {
       $("<i></i>").addClass("fa-solid fa-plane-departure").appendTo(status);
+=======
+  };
+
+  try {
+    const response = await axios.request(options);
+    let time = response.data.route.car.duration;
+    let distance = response.data.route.car.distance;
+    const travel = {
+      time: time,
+      distance: distance
+
+>>>>>>> 8c07061cc9a840311f9cc951c96eb2031a8bf2be
     }
     $("<p></p>").addClass("cell card-header-title is-flex").text(trip.tripName).appendTo(status);
     $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(header);
@@ -633,10 +646,12 @@ $("#add-user")
 
 let dialog = $("#dialog-form").dialog({
   autoOpen: false,
-  height: 525,
-  width: 500,
+  height: "auto",
+  width: "auto",
   modal: true,
   responsive: true,
+  resizable: true,
+  position: { my: "center", at: "top" }, // Center vertically
   buttons: {
     Submit: addUser,
     Cancel: function () {

@@ -72,11 +72,10 @@ footer {
 
 /* Modal Content/Box */
 .modal-content {
-  background-color: #fefefe;
-  margin: 25% auto !important;
+  background-color: #888;
   padding: 20px;
   border: 1px solid #888;
-  width: 50%;
+  width: 100%;
 }
 
 /* The Close Button */
@@ -242,19 +241,6 @@ img.card-header-title {
 #user-dob {
   z-index: 101;
 }
-
-
-.successMsg {
-  display: none;
-  background-color: green;
-  color: white;
-}
-
-/* .modal-content {
-  max-width: 30rem;
-  max-height: 55rem;
-} */
-
 
 #map {
   height: 400px;
