@@ -239,6 +239,7 @@ const getActivities = async () => {
 //Check if any of the trips are happening now, or passed
 const handlePastTrips = () => {
   const trips = JSON.parse(localStorage.getItem("trips"));
+  if (trips) {
   trips.map((trip) => {
     //is today before the start date (trip in the future)
     const before = dayjs().isBefore(dayjs(trip.start));
@@ -260,6 +261,7 @@ const handlePastTrips = () => {
       }
     }
   });
+}
   return trips;
 };
 
@@ -267,6 +269,7 @@ const handlePastTrips = () => {
 const handleSortTrip = (trips) => {
   const sort = JSON.parse(localStorage.getItem("sort-travel-data"));
   let uniqueArr = [];
+  if (trips) {
   trips.filter(function (trip) {
     let i = uniqueArr.findIndex((x) => x.id === trip.id);
     if (i <= -1) {
@@ -275,7 +278,7 @@ const handleSortTrip = (trips) => {
   });
   localStorage.setItem("trips", JSON.stringify(uniqueArr));
   localStorage.removeItem("newTrips");
-
+}
   //check if anything saved in local
   if (sort === null || sort === "tripName") {
     //use default sort by trip name & set sort option to local storage
