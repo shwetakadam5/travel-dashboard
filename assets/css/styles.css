@@ -43,6 +43,10 @@ header {
   background-color: #45a049;
 }
 
+.add-button:disabled {
+  background-color: grey;
+}
+
 footer {
   background-color: rgba(0, 0, 0, 0.7);
   color: #fff;
@@ -72,7 +76,16 @@ footer {
 
 /* Modal Content/Box */
 .modal-content {
+  /* background-color: #fefefe; */
+  margin: 25% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+}
+
+#dialog-form.modal .modal-content {
   background-color: #888;
+  margin: 0;
   padding: 20px;
   border: 1px solid #888;
   width: 100%;
@@ -133,6 +146,7 @@ img.card-header-title {
 .card-header.fixed-grid.has-5-cols .grid {
   width: 100%;
 }
+
 .cell.card-header-title.is-flex {
   justify-content: center
 }
@@ -151,9 +165,10 @@ img.card-header-title {
 }
 
 
-.card-header.grid{
+.card-header.grid {
   margin-bottom: 0;
   padding: 5px 20px;
+
   .status {
     display: flex;
     flex-direction: row;
@@ -167,14 +182,18 @@ img.card-header-title {
   border-radius: var(--bulma-card-radius);
   flex-direction: column;
   margin-bottom: 1rem;
+
   .fixed-grid.has-4-cols {
     width: 100%;
+
     .grid {
       --bulma-grid-column-count: 4;
     }
+
     .grid.travel-title {
       border-bottom: 1px solid black;
     }
+
     .grid.travel-data {
       .cell {
         margin-bottom: 0;
@@ -185,8 +204,9 @@ img.card-header-title {
     }
   }
 }
+
 .level {
-  align-items:flex-start;
+  align-items: flex-start;
 }
 
 .content.level-right {
@@ -195,9 +215,12 @@ img.card-header-title {
   border-radius: var(--bulma-card-radius);
   justify-content: center;
   flex-direction: column;
-  .mt-1.is-size-3, .sight {
+
+  .mt-1.is-size-3,
+  .sight {
     color: white;
   }
+
   .sight {
     text-align: left;
   }
@@ -206,17 +229,21 @@ img.card-header-title {
 
 .dropdown-trigger {
   width: 100%;
+
   button.button {
     width: 100%;
   }
+
   span.icon.is-small {
     width: 100%;
     justify-content: flex-start;
+
     .fa-angle-down {
       margin-left: auto;
     }
   }
 }
+
 /* .fa-suitcase-rolling {
   color: black;
 } */
@@ -224,9 +251,11 @@ img.card-header-title {
   font-size: 10px;
   margin-left: 10px;
 }
+
 .fa-circle-check {
   color: green;
 }
+
 .fa-plane-departure {
   color: orange;
 }
@@ -246,6 +275,3 @@ img.card-header-title {
   height: 400px;
   width: 100%;
 }
-
-
-
