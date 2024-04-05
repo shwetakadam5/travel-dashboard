@@ -38,6 +38,13 @@ const addUsers = (newUserDetails) => {
 };
 
 //--------------------Trip-----------------------------
+//Function to get users from local storage
+const getTrips = () => {
+  const trips = JSON.parse(localStorage.getItem("trips")) || [];
+  return trips;
+};
+
+//Function to save the trips to the local storage.
 const addTrip = () => { };
 
 //Find if any data in local storage
@@ -688,6 +695,7 @@ let userform = dialog.find("form").on("submit", function (event) {
 // When the page loads make the  date field a date picker and also initialize the map
 $(document).ready(function () {
   initMap();
+  addTrip();
   //datepicker initialization (jQueryUI)
   $("#user-dob").datepicker({
     changeMonth: true,
@@ -706,6 +714,8 @@ async function initMap() {
 
   let addedUsers = getLocalUsers(); //retrieve the users from localstorage
 
+  let addedTrips = getTrips();
+
   //To enable the add travel button if atleast one user is available.
   if (addedUsers.length != 0) {
     $("#add-travel").removeAttr("disabled");
@@ -722,12 +732,20 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
 
-  if (addedUsers != null) {
+  if (addedUsers != null || addedTrips != null) {
     for (const user of addedUsers) {
       addMapMarkers({
         locationcoords: new google.maps.LatLng(user.userlocationcoordinates.lat, user.userlocationcoordinates.lon),
         markerimg: "./assets/images/userlocationpin.png",
         markerInfo: "Info ( User Name : " + user.firstname + " " + user.lastname + " & City : " + user.usercity + " )",
+      });
+    }
+
+    for (const trip of addedTrips) {
+      addMapMarkers({
+        locationcoords: new google.maps.LatLng(trip.triplocationcoordinates.lat, trip.triplocationcoordinates.lon),
+        markerimg: "./assets/images/travellocationpin.png",
+        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
       });
     }
 
