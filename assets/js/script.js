@@ -703,6 +703,21 @@ $(document).ready(function () {
     yearRange: "-100:+0",
     maxDate: "0",
   });
+
+  $("#startDate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "0:+50",
+    minDate: "0",
+  });
+
+  $("#endDate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "0:+50",
+    minDate: "0",
+  });
+
 });
 
 // Logic to display the map and map markers.

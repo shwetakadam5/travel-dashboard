@@ -71,7 +71,7 @@ footer {
 
 /* Modal Content/Box */
 .modal-content {
-  /* background-color: #fefefe; */
+  background-color: #fefefe;
   margin: 25% auto;
   padding: 20px;
   border: 1px solid #888;
@@ -287,4 +287,16 @@ img.card-header-title {
 
 .userformbuttons {
   opacity: 0.5;
+}
+
+/* Styling changes for travel modal dialog */
+#users {
+  background-color: white;
+  color: black;
+}
+
+#trip-details {
+  border: solid;
+  padding: 20px;
+  margin: 10px;
 }

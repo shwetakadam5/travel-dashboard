@@ -166,61 +166,77 @@
     <!-- End Created a modal with a form to add users -->
 
     <div id="travelModal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content has-background-primary-light">
         <span class="Travelclose">&times;</span>
         <!-- Add your form fields here -->
         <!-- <label for="tripName">Trip Name:</label>
           <input type="text" id="tripName" name="tripName"> -->
         <form>
-          <div class=" field">
-            <label class="label">Trip Name</label>
-            <div class="control">
-              <input type="text" class="input" id="tripName" placeholder="Enter trip name">
+          <div id="trip-details">
+            <div class="field">
+              <label class="label has-text-black">Trip Name</label>
+              <div class="control">
+                <input type="text" class="input has-background-white has-text-black" id="tripName"
+                  placeholder="Enter trip name">
+              </div>
             </div>
-          </div>
-          <div class=" field">
-            <label class="label">Location</label>
-            <div class="control">
-              <input type="text" class="input" id="locationName" placeholder="Enter Location">
+            <div class="field">
+              <label class="label has-text-black">Destination City</label>
+              <div class="control">
+                <input type="text" class="input has-background-white has-text-black" id="locationName"
+                  placeholder="Enter Destination City">
+              </div>
             </div>
-          </div>
-          <!-- user name fields here -->
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <label class="label">User Name</label>
+            <!-- user name fields here -->
+            <div class="field">
+              <!-- <div class="field-label is-normal"> -->
+              <label class="label has-text-black">Travel Partners</label>
+              <!-- </div> -->
+              <!-- <div class="field-body"> -->
+              <!-- <div class="field is-narrow"> -->
+              <div class="control">
+                <div class="select is-fullwidth ">
+                  <select id="users">
+                  </select>
+                </div>
+              </div>
+              <!-- </div> -->
+              <!-- </div> -->
             </div>
-            <div class="field-body">
-              <div class="field is-narrow">
-                <div class="control">
-                  <div class="select is-fullwidth">
-                    <select id="users">
-                    </select>
+            <div class="level">
+              <div class="level-left">
+                <div class="level-item">
+                  <div class="field">
+                    <label class="label has-text-black" for="startDate">Trip Start Date:</label>
+                    <!-- <input type="date" id="startDate" name="startDate"> -->
+                    <input id="startDate" class="input has-background-white has-text-black" type="text" name="startDate"
+                      placeholder="Trip Start Date" title="Trip Start Date" required>
+                  </div>
+                </div>
+              </div>
+              <div class="level-right">
+                <div class="level-item">
+                  <div class="field">
+                    <label class="label has-text-black" for="endDate">Trip End Date:</label>
+                    <!-- <input type="date" id="endDate" name="endDate"><br> -->
+                    <input id="endDate" class="input has-background-white has-text-black" type="text" name="endDate"
+                      placeholder="Trip End Date" title="Trip End Date" required>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="field">
-            <div class="control">
-              <label class="checkbox">
-                <input type="checkbox">
-                I agree to the <a href=""> terms & conditions</a>
-              </label>
+            <div class="field">
+              <div class="control">
+                <label class="checkbox">
+                  <input type="checkbox">
+                  I agree to the <a href=""> terms & conditions</a>
+                </label>
+              </div>
             </div>
-          </div>
-          <div class="field">
-            <label class="label" for="startDate">Start Date:</label>
-            <input type="date" id="startDate" name="startDate">
-          </div>
-          <!-- </div>
-          </div> -->
-          <div class="field">
-            <label class="label" for="endDate">End Date:</label>
-            <input type="date" id="endDate" name="endDate"><br>
-          </div>
-          <button class="button is-primary" type="button" id="submitTravel">Submit</button>
+            <button class="button is-primary" type="button" id="submitTravel">Submit</button>
         </form>
       </div>
+    </div>
     </div>
   </main>
 
