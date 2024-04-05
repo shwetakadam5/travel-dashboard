@@ -38,6 +38,13 @@ const addUsers = (newUserDetails) => {
 };
 
 //--------------------Trip-----------------------------
+//Function to get users from local storage
+const getTrips = () => {
+  const trips = JSON.parse(localStorage.getItem("trips")) || [];
+  return trips;
+};
+
+//Function to save the trips to the local storage.
 const addTrip = () => { };
 
 //Find if any data in local storage
@@ -60,11 +67,11 @@ const travelModal = document.getElementById("travelModal");
 // Get the <span> element that closes the modal
 const closeBtnUser = document.getElementsByClassName("close")[0];
 const closeBtnTravel = document.querySelector(".Travelclose");
-closeBtnTravel.addEventListener("click",function () {
-  document.querySelector("#tripName").value=""
-  document.querySelector("#locationName").value=""
-  document.querySelector("#startDate").value=""
-  document.querySelector("#endDate").value=""
+closeBtnTravel.addEventListener("click", function () {
+  document.querySelector("#tripName").value = ""
+  document.querySelector("#locationName").value = ""
+  document.querySelector("#startDate").value = ""
+  document.querySelector("#endDate").value = ""
   travelModal.style.display = "none";
 })
 // btn.addEventListener("click", function() {
@@ -73,16 +80,16 @@ closeBtnTravel.addEventListener("click",function () {
 // });
 
 // Event listener for button click
-btn.addEventListener("click", function() {
+btn.addEventListener("click", function () {
   // Show the modal (make it visible)
   travelModal.style.display = "block";
-  let users = JSON.parse(localStorage.getItem("users"))|| []
+  let users = JSON.parse(localStorage.getItem("users")) || []
   for (let index = 0; index < users.length; index++) {
     console.log(users)
-    let userName = users[index].firstname + " " +users[index].lastname;
-    let option=document.createElement("option")
-    option.textContent=userName
-    option.classList.add("isminor"+users[index].isminor)
+    let userName = users[index].firstname + " " + users[index].lastname;
+    let option = document.createElement("option")
+    option.textContent = userName
+    option.classList.add("isminor" + users[index].isminor)
     document.querySelector("#users").appendChild(option)
   }
 });
@@ -93,14 +100,14 @@ document.querySelector("#submitTravel").addEventListener("click", function () {
   let userTrips = JSON.parse(localStorage.getItem(user)) || []
   let newTrip = { tripName: document.querySelector("#tripName").value, locationName: document.querySelector("#locationName").value.trim(), username: document.querySelector("#users").value, startDate: document.querySelector("#startDate").value, endDate: document.querySelector("#endDate").value }
   if (!userTrips.includes(document.querySelector("#tripName").value)) {
-  userTrips.push(document.querySelector("#tripName").value)
-  userTrips.push(newTrip)
-  localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
-  document.querySelector("#tripName").value=""
-  document.querySelector("#locationName").value=""
-  document.querySelector("#startDate").value=""
-  document.querySelector("#endDate").value=""
-}
+    userTrips.push(document.querySelector("#tripName").value)
+    userTrips.push(newTrip)
+    localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
+    document.querySelector("#tripName").value = ""
+    document.querySelector("#locationName").value = ""
+    document.querySelector("#startDate").value = ""
+    document.querySelector("#endDate").value = ""
+  }
 })
 
 
@@ -256,28 +263,28 @@ const getActivities = async () => {
 const handlePastTrips = () => {
   const trips = JSON.parse(localStorage.getItem("trips"));
   if (trips) {
-  trips.map((trip) => {
-    //is today before the start date (trip in the future)
-    const before = dayjs().isBefore(dayjs(trip.start));
-    //is today after the end date
-    const after = dayjs().isAfter(dayjs(trip.end));
-    //is today between start and end date
-    const between = dayjs().isBetween(trip.start, dayjs(trip.end));
-    if (before) {
-      if (trip.status !== "upcoming") {
-        trip.status = "upcoming";
+    trips.map((trip) => {
+      //is today before the start date (trip in the future)
+      const before = dayjs().isBefore(dayjs(trip.start));
+      //is today after the end date
+      const after = dayjs().isAfter(dayjs(trip.end));
+      //is today between start and end date
+      const between = dayjs().isBetween(trip.start, dayjs(trip.end));
+      if (before) {
+        if (trip.status !== "upcoming") {
+          trip.status = "upcoming";
+        }
+      } else if (after) {
+        if (trip.status === "upcoming" || trip.status === "current") {
+          trip.status = "completed";
+        }
+      } else if (between) {
+        if (trip.status === "upcoming" || trip.status === "completed") {
+          trip.status = "current";
+        }
       }
-    } else if (after) {
-      if (trip.status === "upcoming" || trip.status === "current") {
-        trip.status = "completed";
-      }
-    } else if (between) {
-      if (trip.status === "upcoming" || trip.status === "completed") {
-        trip.status = "current";
-      }
-    }
-  });
-}
+    });
+  }
   return trips;
 };
 
@@ -286,15 +293,15 @@ const handleSortTrip = (trips) => {
   const sort = JSON.parse(localStorage.getItem("sort-travel-data"));
   let uniqueArr = [];
   if (trips) {
-  trips.filter(function (trip) {
-    let i = uniqueArr.findIndex((x) => x.id === trip.id);
-    if (i <= -1) {
-      uniqueArr.push(trip);
-    }
-  });
-  localStorage.setItem("trips", JSON.stringify(uniqueArr));
-  localStorage.removeItem("newTrips");
-}
+    trips.filter(function (trip) {
+      let i = uniqueArr.findIndex((x) => x.id === trip.id);
+      if (i <= -1) {
+        uniqueArr.push(trip);
+      }
+    });
+    localStorage.setItem("trips", JSON.stringify(uniqueArr));
+    localStorage.removeItem("newTrips");
+  }
   //check if anything saved in local
   if (sort === null || sort === "tripName") {
     //use default sort by trip name & set sort option to local storage
@@ -535,9 +542,9 @@ const MINOR_AGE_LIMIT = 12;
 
 //Function to update the error message and highlight the fields
 function updateErrorMsg(errMsg) {
-  userErrMsgEl.text(errMsg).addClass("ui-state-highlight");
+  userErrMsgEl.text(errMsg).addClass("ui-state-error has-text-danger");
   setTimeout(function () {
-    userErrMsgEl.removeClass("ui-state-highlight", 1500);
+    userErrMsgEl.removeClass("ui-state-error", 1500);
   }, 500);
 }
 
@@ -658,6 +665,7 @@ let dialog = $("#dialog-form").dialog({
   modal: true,
   responsive: true,
   resizable: true,
+  dialogClass: "userformdialog",
   position: { my: "center", at: "top" }, // Center vertically
   buttons: {
     Submit: addUser,
@@ -671,6 +679,7 @@ let dialog = $("#dialog-form").dialog({
     console.log("In close function");
     userform[0].reset();
     allFields.removeClass("ui-state-error");
+    userErrMsgEl.removeClass("has-text-danger");
 
     userErrMsgEl.text("All form fields are required."); //reset the user form
     userSuccessMsgEl.attr("display", "block");
@@ -686,6 +695,7 @@ let userform = dialog.find("form").on("submit", function (event) {
 // When the page loads make the  date field a date picker and also initialize the map
 $(document).ready(function () {
   initMap();
+  addTrip();
   //datepicker initialization (jQueryUI)
   $("#user-dob").datepicker({
     changeMonth: true,
@@ -693,6 +703,21 @@ $(document).ready(function () {
     yearRange: "-100:+0",
     maxDate: "0",
   });
+
+  $("#startDate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "0:+50",
+    minDate: "0",
+  });
+
+  $("#endDate").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    yearRange: "0:+50",
+    minDate: "0",
+  });
+
 });
 
 // Logic to display the map and map markers.
@@ -703,6 +728,8 @@ async function initMap() {
   // console.log("INIT MAP INVOKED");
 
   let addedUsers = getLocalUsers(); //retrieve the users from localstorage
+
+  let addedTrips = getTrips();
 
   //To enable the add travel button if atleast one user is available.
   if (addedUsers.length != 0) {
@@ -720,12 +747,20 @@ async function initMap() {
     mapId: "DEMO_MAP_ID",
   });
 
-  if (addedUsers != null) {
+  if (addedUsers != null || addedTrips != null) {
     for (const user of addedUsers) {
       addMapMarkers({
         locationcoords: new google.maps.LatLng(user.userlocationcoordinates.lat, user.userlocationcoordinates.lon),
         markerimg: "./assets/images/userlocationpin.png",
         markerInfo: "Info ( User Name : " + user.firstname + " " + user.lastname + " & City : " + user.usercity + " )",
+      });
+    }
+
+    for (const trip of addedTrips) {
+      addMapMarkers({
+        locationcoords: new google.maps.LatLng(trip.triplocationcoordinates.lat, trip.triplocationcoordinates.lon),
+        markerimg: "./assets/images/travellocationpin.png",
+        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
       });
     }
 

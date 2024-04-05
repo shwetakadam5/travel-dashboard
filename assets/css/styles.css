@@ -25,26 +25,21 @@ header {
 }
 
 .add-button {
-  background-color: #2a6c2c;
   border: none;
-  color: white;
   padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
-  transition: background-color 0.3s;
 }
 
 .add-button:hover {
-  background-color: #45a049;
+  font-size: 17px;
+  transition: font-size 0.3s;
 }
 
 .add-button:disabled {
-  background-color: grey;
+  opacity: 0.5;
 }
 
 footer {
@@ -76,7 +71,7 @@ footer {
 
 /* Modal Content/Box */
 .modal-content {
-  /* background-color: #fefefe; */
+  background-color: #fefefe;
   margin: 25% auto;
   padding: 20px;
   border: 1px solid #888;
@@ -274,4 +269,34 @@ img.card-header-title {
 #map {
   height: 400px;
   width: 100%;
+}
+
+/* Added the styling changes for the user modal dialog */
+.input {
+  --bulma-input-placeholder-color: #7676765e;
+}
+
+.userformdialog .ui-dialog-titlebar {
+  /* background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-light-l), 1); */
+  background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+}
+
+.userformdialog .ui-dialog-buttonpane {
+  background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+}
+
+.userformbuttons {
+  opacity: 0.5;
+}
+
+/* Styling changes for travel modal dialog */
+#users {
+  background-color: white;
+  color: black;
+}
+
+#trip-details {
+  border: solid;
+  padding: 20px;
+  margin: 10px;
 }
