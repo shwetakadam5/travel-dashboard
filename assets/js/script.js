@@ -45,7 +45,7 @@ const getTrips = () => {
 };
 
 //Function to save the trips to the local storage.
-const addTrip = () => { };
+const addTrip = () => {};
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -97,47 +97,69 @@ document
   .addEventListener("click", async function () {
     // let user = document.querySelector("#users").value
     let userTrips = getTrips();
-    //  console.log(document.querySelector(document.querySelector("#locationName").value.trim()) )
-    //     const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
+    // let lat = 0;
+    // let lon = 0;
 
-    //     const getIcon = await fetch(geoUrl)
-    //       .then(function (response) {
-    //         return response.json();
-    //       })
-    //       .then(function (data) {
-    //       console.log(data[0])
-    //       console.log(data[0].lat)
-    //       })
-    let userList = getLocalUsers();
-    const userselected = document.querySelector("#users").value;
-    const newtripusers = [];
-    for (const userlistitem of userList) {
-      if (userlistitem.userid == userselected) {
-        newtripusers.push(userlistitem);
-      }
-    }
-    let newTrip = {
-      id: crypto.randomUUID(),
-      tripName: document.querySelector("#tripNameForm").value.trim(),
-      location: document.querySelector("#locationName").value.trim(),
-      users: newtripusers,
-      start: document.querySelector("#startDate").value,
-      end: document.querySelector("#endDate").value,
-      status: "upcoming",
-      lat: -37.8142454,
-      lon: 144.9631732,
-    };
+    // if (userCityEl.val().trim() != "") {
+      let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
+      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY_GEO}`;
+      fetch(geoUrl)
+        .then(function (response) {
+          if (!response.ok) {
+            alert(
+              `Error Msg: ${response.statusText}. Redirecting to error page.`
+            );
+            location.href = redirectUrl;
+          } else {
+            return response.json();
+          }
+        })
+        .then(function (data) {
+          if (!Object.keys(data).length) {
+            console.log("No data found");
+            alert(
+              `Error Msg: No data found :Invalid city. Redirecting to error page.`
+            );
+            location.href = redirectUrl;
+          } else {
+            console.log("Data received:", data);
 
-    // console.log(newTrip);
-    if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
-      userTrips.push(newTrip);
-      // console.log(userTrips)
-      localStorage.setItem("trips", JSON.stringify(userTrips));
-      document.querySelector("#tripNameForm").value = "";
-      document.querySelector("#locationName").value = "";
-      document.querySelector("#startDate").value = "";
-      document.querySelector("#endDate").value = "";
-    }
+          
+            let userList = getLocalUsers();
+            const userselected = document.querySelector("#users").value;
+            const newtripusers = [];
+            for (const userlistitem of userList) {
+              if (userlistitem.userid == userselected) {
+                newtripusers.push(userlistitem);
+              }
+            }
+            let newTrip = {
+              id: crypto.randomUUID(),
+              tripName: document.querySelector("#tripNameForm").value.trim(),
+              location: document.querySelector("#locationName").value.trim(),
+              users: newtripusers,
+              start: document.querySelector("#startDate").value,
+              end: document.querySelector("#endDate").value,
+              status: "upcoming",
+              lat: data[0].lat,
+              lon: data[0].lon,
+            };
+        
+            // console.log(newTrip);
+            if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
+              userTrips.push(newTrip);
+              // console.log(userTrips)
+              localStorage.setItem("trips", JSON.stringify(userTrips));
+              document.querySelector("#tripNameForm").value = "";
+              document.querySelector("#locationName").value = "";
+              document.querySelector("#startDate").value = "";
+              document.querySelector("#endDate").value = "";
+            }
+   
+          }
+        });
+    // }
+  
   });
 
 // Populate the users dropdown from local storage
@@ -157,7 +179,7 @@ const handleSelectUsers = () => {
 const handleTravelPlanSubmit = () => {
   // Handle form submission (you'll need to implement this)
   const submitButton = document.getElementById("#submitTravel");
-  submitButton.addEventListener("click", function () { });
+  submitButton.addEventListener("click", function () {});
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 };
@@ -283,17 +305,17 @@ const getActivities = async () => {
   const headers = { Authorization: `Bearer ${token.access_token}` };
 
   //Get the activity data
-  let activity = await fetch(
-    "https://test.api.amadeus.com/v1/reference-data/locations/pois?latitude=41.397158&longitude=2.160873&radius=2",
-    { headers }
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (datas) {
-      return datas;
-    });
-  return activity;
+  // let activity = await fetch(
+  //   "https://test.api.amadeus.com/v1/reference-data/locations/pois?latitude=41.397158&longitude=2.160873&radius=2",
+  //   { headers }
+  // )
+  //   .then(function (response) {
+  //     return response.json();
+  //   })
+  //   .then(function (datas) {
+  //     return datas;
+  //   });
+  // return activity;
 };
 
 //Check if any of the trips are happening now, or passed
@@ -409,11 +431,9 @@ const getLocationData = () => {
           );
         })
         .then(function (data) {
-
           // console.log(data[0].city.coord.lat);
           // console.log(data[0].city.coord.lon);
           // console.log(data[0].list[0].weather[0].icon);
-
 
           let newTripObj = {
             id: trip.id,
