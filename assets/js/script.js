@@ -45,7 +45,7 @@ const getTrips = () => {
 };
 
 //Function to save the trips to the local storage.
-const addTrip = () => {};
+const addTrip = () => { };
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -110,7 +110,7 @@ document
     //       })
     let userList = getLocalUsers();
     const userselected = document.querySelector("#users").value;
-    const newtripusers =[];
+    const newtripusers = [];
     for (const userlistitem of userList) {
       if (userlistitem.userid == userselected) {
         newtripusers.push(userlistitem);
@@ -157,7 +157,7 @@ const handleSelectUsers = () => {
 const handleTravelPlanSubmit = () => {
   // Handle form submission (you'll need to implement this)
   const submitButton = document.getElementById("#submitTravel");
-  submitButton.addEventListener("click", function () {});
+  submitButton.addEventListener("click", function () { });
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 };
@@ -413,7 +413,7 @@ const getLocationData = () => {
           // console.log(data[0].city.coord.lat);
           // console.log(data[0].city.coord.lon);
           // console.log(data[0].list[0].weather[0].icon);
-          
+
 
           let newTripObj = {
             id: trip.id,
@@ -577,7 +577,9 @@ const createDashboard = async () => {
       trip.users.map(async (user) => {
         //Filter all users to get current user data
         const localUser = savedUsers.filter(
-          (savedUser) => user.name === savedUser.firstname
+          // (savedUser) => user.name === savedUser.firstname
+          //TODO : Gayle to check this below change
+          (savedUser) => user.userid === savedUser.userid
         );
 
         //Calculate the travel distance for each user
