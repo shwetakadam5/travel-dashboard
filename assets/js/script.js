@@ -73,7 +73,13 @@ closeBtnTravel.addEventListener("click", function () {
   document.querySelector("#startDate").value = ""
   document.querySelector("#endDate").value = ""
   travelModal.style.display = "none";
+  // document.querySelector('.close-btn').addEventListener('click', function() {
+  //   document.getElementById('travelModal').style.display = 'none';
+  // });
 })
+
+
+
 // btn.addEventListener("click", function() {
 // // Your custom logic or actions here
 // console.log("Button clicked!"); // Example: Log a message when the button is clicked
@@ -97,13 +103,42 @@ btn.addEventListener("click", function () {
 // const handleTripPlanSubmit = () => {
 document.querySelector("#submitTravel").addEventListener("click", function () {
   let user = document.querySelector("#users").value
-  let userTrips = JSON.parse(localStorage.getItem(user)) || []
-  let newTrip = { tripName: document.querySelector("#tripName").value, locationName: document.querySelector("#locationName").value.trim(), username: document.querySelector("#users").value, startDate: document.querySelector("#startDate").value, endDate: document.querySelector("#endDate").value }
-  if (!userTrips.includes(document.querySelector("#tripName").value)) {
-    userTrips.push(document.querySelector("#tripName").value)
-    userTrips.push(newTrip)
-    localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
-    document.querySelector("#tripName").value = ""
+  let userTrips = JSON.parse(localStorage.getItem("trips")) || []
+  // console.log(document.querySelector("#tripNameForm") )
+  
+  // document.querySelector("#submitTravel").addEventListener("click", async function () {
+  //   let user = document.querySelector("#users").value
+  //   let userTrips = JSON.parse(localStorage.getItem("trips")) || []
+  //   // console.log(document.querySelector("#tripNameForm") )
+  //   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
+  //   const getIcon = await fetch(geoUrl)
+  //     .then(function (response) {
+  //       return response.json();
+  //     })
+  //     .then(function (data) {
+  //     console.log(data[0])
+  //     console.log(data[0].lat)
+  //     })
+
+
+
+  let newTrip = { 
+    tripId: crypto.randomUUID(),
+    tripName: document.querySelector("#tripNameForm").value.trim(), 
+    locationName: document.querySelector("#locationName").value.trim(), 
+    username: document.querySelector("#users").value, 
+    startDate: document.querySelector("#startDate").value, 
+    endDate: document.querySelector("#endDate").value }
+// console.log(newTrip);
+    if (!userTrips.some(trip => trip.tripName === newTrip.tripName)) {
+      userTrips.push(newTrip);
+      // console.log(userTrips)
+      localStorage.setItem("trips", JSON.stringify(userTrips));
+  // if (!userTrips.includes(document.querySelector("#tripName").value)) {
+  //   userTrips.push(document.querySelector("#tripName").value)
+  //   userTrips.push(newTrip)
+    // localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
+    document.querySelector("#tripNameForm").value = ""
     document.querySelector("#locationName").value = ""
     document.querySelector("#startDate").value = ""
     document.querySelector("#endDate").value = ""
@@ -124,21 +159,25 @@ const handleSelectUsers = () => {
     usersDropdown.appendChild(option); // Add the option to the select
   }
 };
-
+// event listener for the travel modal submission
 const handleTravelPlanSubmit = () => {
   // Handle form submission (you'll need to implement this)
   const submitButton = document.getElementById("#submitTravel");
   submitButton.addEventListener("click", function () {
-    // Get form values and save to local storage
-    // ...
-    // Close the modal
+  
   });
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 
-  //Call the function to create the dashboard cards
+
+    // Get form values and save to local storage
+    // ...
+    // Close the modal
+ 
+ };
+
+//Call the function to create the dashboard cards
   // createDashboard();
-};
 
 //-------------Dashboard -----------------------------
 
