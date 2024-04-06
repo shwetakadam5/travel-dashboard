@@ -94,38 +94,38 @@ btn.addEventListener("click", function () {
   }
 });
 
-  document.querySelector("#submitTravel").addEventListener("click", async function () {
-    // let user = document.querySelector("#users").value
-    let userTrips = getTrips();
-//  console.log(document.querySelector(document.querySelector("#locationName").value.trim()) )
-//     const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
+document.querySelector("#submitTravel").addEventListener("click", async function () {
+  // let user = document.querySelector("#users").value
+  let userTrips = getTrips();
+  //  console.log(document.querySelector(document.querySelector("#locationName").value.trim()) )
+  //     const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
 
-//     const getIcon = await fetch(geoUrl)
-//       .then(function (response) {
-//         return response.json();
-//       })
-//       .then(function (data) {
-//       console.log(data[0])
-//       console.log(data[0].lat)
-//       })
+  //     const getIcon = await fetch(geoUrl)
+  //       .then(function (response) {
+  //         return response.json();
+  //       })
+  //       .then(function (data) {
+  //       console.log(data[0])
+  //       console.log(data[0].lat)
+  //       })
 
-  let newTrip = { 
+  let newTrip = {
     id: crypto.randomUUID(),
-    tripName: document.querySelector("#tripNameForm").value.trim(), 
-    location: document.querySelector("#locationName").value.trim(), 
-    users: document.querySelector("#users").value, 
-    start: document.querySelector("#startDate").value, 
+    tripName: document.querySelector("#tripNameForm").value.trim(),
+    location: document.querySelector("#locationName").value.trim(),
+    users: document.querySelector("#users").value,
+    start: document.querySelector("#startDate").value,
     end: document.querySelector("#endDate").value,
-    status:"upcoming",
-    lat:-37.8142454,
-    lon:144.9631732,
-   }
-   
-// console.log(newTrip);
-    if (!userTrips.some(trip => trip.tripName === newTrip.tripName)) {
-      userTrips.push(newTrip);
-      // console.log(userTrips)
-      localStorage.setItem("trips", JSON.stringify(userTrips));
+    status: "upcoming",
+    lat: -37.8142454,
+    lon: 144.9631732,
+  }
+
+  // console.log(newTrip);
+  if (!userTrips.some(trip => trip.tripName === newTrip.tripName)) {
+    userTrips.push(newTrip);
+    // console.log(userTrips)
+    localStorage.setItem("trips", JSON.stringify(userTrips));
     document.querySelector("#tripNameForm").value = ""
     document.querySelector("#locationName").value = ""
     document.querySelector("#startDate").value = ""
@@ -152,16 +152,16 @@ const handleTravelPlanSubmit = () => {
   // Handle form submission (you'll need to implement this)
   const submitButton = document.getElementById("#submitTravel");
   submitButton.addEventListener("click", function () {
-  
+
   });
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 
- 
- };
+
+};
 
 //Call the function to create the dashboard cards
-  // createDashboard();
+// createDashboard();
 
 //-------------Dashboard -----------------------------
 
@@ -718,7 +718,7 @@ let userform = dialog.find("form").on("submit", function (event) {
 // When the page loads make the  date field a date picker and also initialize the map
 $(document).ready(function () {
   initMap();
-  addTrip();
+  // addTrip();
   //datepicker initialization (jQueryUI)
   $("#user-dob").datepicker({
     changeMonth: true,
@@ -781,9 +781,10 @@ async function initMap() {
 
     for (const trip of addedTrips) {
       addMapMarkers({
-        locationcoords: new google.maps.LatLng(trip.triplocationcoordinates.lat, trip.triplocationcoordinates.lon),
+        locationcoords: new google.maps.LatLng(trip.lat, trip.lon),
         markerimg: "./assets/images/travellocationpin.png",
-        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
+        // markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
+        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + " )",
       });
     }
 
