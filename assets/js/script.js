@@ -79,12 +79,6 @@ closeBtnTravel.addEventListener("click", function () {
 })
 
 
-
-// btn.addEventListener("click", function() {
-// // Your custom logic or actions here
-// console.log("Button clicked!"); // Example: Log a message when the button is clicked
-// });
-
 // Event listener for button click
 btn.addEventListener("click", function () {
   // Show the modal (make it visible)
@@ -100,44 +94,38 @@ btn.addEventListener("click", function () {
   }
 });
 
-// const handleTripPlanSubmit = () => {
-document.querySelector("#submitTravel").addEventListener("click", function () {
-  let user = document.querySelector("#users").value
-  let userTrips = JSON.parse(localStorage.getItem("trips")) || []
-  // console.log(document.querySelector("#tripNameForm") )
-  
-  // document.querySelector("#submitTravel").addEventListener("click", async function () {
-  //   let user = document.querySelector("#users").value
-  //   let userTrips = JSON.parse(localStorage.getItem("trips")) || []
-  //   // console.log(document.querySelector("#tripNameForm") )
-  //   const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
-  //   const getIcon = await fetch(geoUrl)
-  //     .then(function (response) {
-  //       return response.json();
-  //     })
-  //     .then(function (data) {
-  //     console.log(data[0])
-  //     console.log(data[0].lat)
-  //     })
+  document.querySelector("#submitTravel").addEventListener("click", async function () {
+    // let user = document.querySelector("#users").value
+    let userTrips = getTrips();
+//  console.log(document.querySelector(document.querySelector("#locationName").value.trim()) )
+//     const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${document.querySelector("#locationName").value.trim()}&limit=1&appid=${API_KEY}`;
 
-
+//     const getIcon = await fetch(geoUrl)
+//       .then(function (response) {
+//         return response.json();
+//       })
+//       .then(function (data) {
+//       console.log(data[0])
+//       console.log(data[0].lat)
+//       })
 
   let newTrip = { 
-    tripId: crypto.randomUUID(),
+    id: crypto.randomUUID(),
     tripName: document.querySelector("#tripNameForm").value.trim(), 
-    locationName: document.querySelector("#locationName").value.trim(), 
-    username: document.querySelector("#users").value, 
-    startDate: document.querySelector("#startDate").value, 
-    endDate: document.querySelector("#endDate").value }
+    location: document.querySelector("#locationName").value.trim(), 
+    users: document.querySelector("#users").value, 
+    start: document.querySelector("#startDate").value, 
+    end: document.querySelector("#endDate").value,
+    status:"upcoming",
+    lat:-37.8142454,
+    lon:144.9631732,
+   }
+   
 // console.log(newTrip);
     if (!userTrips.some(trip => trip.tripName === newTrip.tripName)) {
       userTrips.push(newTrip);
       // console.log(userTrips)
       localStorage.setItem("trips", JSON.stringify(userTrips));
-  // if (!userTrips.includes(document.querySelector("#tripName").value)) {
-  //   userTrips.push(document.querySelector("#tripName").value)
-  //   userTrips.push(newTrip)
-    // localStorage.setItem(document.querySelector("#users").value, JSON.stringify(userTrips))
     document.querySelector("#tripNameForm").value = ""
     document.querySelector("#locationName").value = ""
     document.querySelector("#startDate").value = ""
@@ -169,10 +157,6 @@ const handleTravelPlanSubmit = () => {
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 
-
-    // Get form values and save to local storage
-    // ...
-    // Close the modal
  
  };
 
