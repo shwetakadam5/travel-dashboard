@@ -72,6 +72,14 @@ closeBtnTravel.addEventListener("click", function () {
   document.querySelector("#startDate").value = "";
   document.querySelector("#endDate").value = "";
   travelModal.style.display = "none";
+});
+const closeBtnTravelc = document.getElementById("close-btn");
+closeBtnTravelc.addEventListener("click", function () {
+  document.querySelector("#tripName").value = "";
+  document.querySelector("#locationName").value = "";
+  document.querySelector("#startDate").value = "";
+  document.querySelector("#endDate").value = "";
+  travelModal.style.display = "none";
   // document.querySelector('.close-btn').addEventListener('click', function() {
   //   document.getElementById('travelModal').style.display = 'none';
   // });
@@ -97,10 +105,14 @@ document
   .addEventListener("click", async function () {
     // let user = document.querySelector("#users").value
     let userTrips = getTrips();
-    // let lat = 0;
-    // let lon = 0;
+    let valid= true;
+    valid = valid && checkLength($("#tripNameForm"), "Trip Name");
+    valid = valid && checkLength($("#locationName"), "Destination City");
+    valid = valid && checkLength($("#startDate"), "Trip Start Date");
+    valid = valid && checkLength($("#endDate"), "Trip End Date");
+    console.log(valid);
 
-    // if (userCityEl.val().trim() != "") {
+    if (valid) {
       let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
       const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY_GEO}`;
       fetch(geoUrl)
@@ -158,7 +170,10 @@ document
    
           }
         });
-    // }
+    } else {
+       // to do handle invalid keys on the form
+       alert("Please fill in all required fields correctly.");
+    }
   
   });
 
