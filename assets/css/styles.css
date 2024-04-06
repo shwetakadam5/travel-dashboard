@@ -86,7 +86,7 @@ footer {
   width: 100%;
 }
 
-/* The Close Button */
+/* The travel modal button */
 .close {
   color: #aaa;
   float: right;
@@ -101,6 +101,13 @@ footer {
   cursor: pointer;
 }
 
+/* Travel modal close-btn */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
 /* -------------Dashboard Style-------------*/
 h4:first-child.cell {
   margin-top: calc(2rem - .1428571428571429em);
