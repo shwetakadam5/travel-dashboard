@@ -166,7 +166,7 @@ document
             };
 
             // console.log(newTrip);
-            if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
+            if (!userTrips.some((trip) => trip.id === newTrip.id)) {
               userTrips.push(newTrip);
               // console.log(userTrips)
               localStorage.setItem("trips", JSON.stringify(userTrips));
