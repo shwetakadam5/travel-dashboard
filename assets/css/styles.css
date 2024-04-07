@@ -78,7 +78,7 @@ footer {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  /* Added class "is-flex" to travel model which auto centers the modal */
+  /* Changed the travel model to flex instead of block so margin isn't required. Not sure how affects users modal */
   /* margin: 25% auto; */
   padding: 20px;
   border: 1px solid #888;

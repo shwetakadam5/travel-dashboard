@@ -14,8 +14,8 @@ const AMADEUS_API = "NA55GdY4z1oK26uo";
 
 //--------------------Homepage -----------------------
 //Show the current year in the footer - GM
-const year = dayjs().format('YYYY');
-$('#year').text(year);
+const year = dayjs().format("YYYY");
+$("#year").text(year);
 
 //--------------------Users---------------------------
 //Function to get users from local storage
@@ -47,15 +47,17 @@ const getTrips = () => {
 };
 
 //Function to save the trips to the local storage.
-const addTrip = () => { };
+const addTrip = () => {};
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
 if (data === null) {
   $("#no-data").removeClass("hidden");
+  $("#show-map").addClass("hidden");
 } else {
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
+  $("#show-map").removeClass("hidden");
 }
 
 // Get the modal element
@@ -63,6 +65,7 @@ const modal = document.getElementById("travelModal");
 
 // Get the button that opens the modal
 const btn = document.getElementById("add-travel");
+const submit = document.querySelector("#submitTravel");
 const travelModal = document.getElementById("travelModal");
 
 // Get the <span> element that closes the modal
@@ -94,7 +97,7 @@ btn.addEventListener("click", function () {
   travelModal.style.display = "flex";
   let users = getLocalUsers();
   for (let index = 0; index < users.length; index++) {
-    console.log(users);
+
     let option = document.createElement("option");
     let userName = users[index].firstname + " " + users[index].lastname;
     option.textContent = userName;
@@ -103,90 +106,142 @@ btn.addEventListener("click", function () {
   }
 });
 
-document
-  .querySelector("#submitTravel")
-  .addEventListener("click", async function () {
-    // let user = document.querySelector("#users").value
-    let userTrips = getTrips();
-    let valid = true;
-    valid = valid && checkLength($("#tripNameForm"), "Trip Name");
-    valid = valid && checkLength($("#locationName"), "Destination City");
-    valid = valid && checkLength($("#startDate"), "Trip Start Date");
-    valid = valid && checkLength($("#endDate"), "Trip End Date");
-    console.log(valid);
+//GM - Check for overlapping dates
 
-    if (valid) {
-      let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
-      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY_GEO}`;
-      fetch(geoUrl)
-        .then(function (response) {
-          if (!response.ok) {
-            alert(
-              `Error Msg: ${response.statusText}. Redirecting to error page.`
-            );
-            location.href = redirectUrl;
-          } else {
-            return response.json();
-          }
+//Check if any of the trips are happening now, or passed
+const handleDateCheck = (start, end, users) => {
+  const trips = getTrips()
+  let duplicateArr = [];
+  if (trips) {
+    trips.map((trip) => {
+      //Is this trip's start date between previous trip start & end dates
+      const between = dayjs(start).isBetween(trip.start, dayjs(trip.end));
+      if (between) {
+        users.map((user) => {
+         let duplicateUser = trip.users.filter(tripUser => tripUser.userid === user.userid);
+          duplicateUser.map((dup => {
+            duplicateArr.push({
+              name: `${dup.firstname} ${dup.lastname}`,
+              trip: trip.location,
+            })
+          }))
         })
-        .then(function (data) {
-          if (!Object.keys(data).length) {
-            console.log("No data found");
-            alert(
-              `Error Msg: No data found :Invalid city. Redirecting to error page.`
-            );
-            location.href = redirectUrl;
-          } else {
-            console.log("Data received:", data);
+      }
+    });
 
-            // Code to fix the issue of multi selection of users
-            let userList = getLocalUsers();
-            const userSelections = [];
-            for (const option of document.querySelector("#users").options) {
-              if (option.selected) {
-                userSelections.push(option.value);
-              }
+  return duplicateArr;
+  }
+};
+
+
+//Function for the submit button
+submit.addEventListener("click", async function () {
+  // let user = document.querySelector("#users").value
+  let userTrips = getTrips();
+  let valid = true;
+  valid = valid && checkLength($("#tripNameForm"), "Trip Name");
+  valid = valid && checkLength($("#locationName"), "Destination City");
+  valid = valid && checkLength($("#startDate"), "Trip Start Date");
+  valid = valid && checkLength($("#endDate"), "Trip End Date");
+  console.log(valid);
+
+
+  if (valid) {
+    let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
+    const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY_GEO}`;
+    await fetch(geoUrl)
+      .then(function (response) {
+        if (!response.ok) {
+          alert(`Error Msg: ${response.statusText}. Redirecting to error page.`);
+          location.href = redirectUrl;
+        } else {
+          return response.json();
+        }
+      })
+      //GM - adding the icon fetching function into the submit button
+      .then(function (data) {
+        return Promise.all(
+          data.map((item) => {
+            return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${item.lat}&lon=${item.lon}&units=metric&appid=${API_KEY}`).then(function (data) {
+              return data.json();
+            });
+          })
+        );
+      })
+      .then(function (data) {
+        if (!Object.keys(data).length) {
+          console.log("No data found");
+          alert(`Error Msg: No data found :Invalid city. Redirecting to error page.`);
+          location.href = redirectUrl;
+        } else {
+          console.log("Data received:", data);
+
+
+
+          // Code to fix the issue of multi selection of users
+          let userList = getLocalUsers();
+          const userSelections = [];
+          for (const option of document.querySelector("#users").options) {
+            if (option.selected) {
+              userSelections.push(option.value);
             }
-            const newtripusers = [];
-            for (const userlistitem of userList) {
-              for (const selecteduser of userSelections) {
-                if (userlistitem.userid == selecteduser) {
-                  newtripusers.push(userlistitem);
-                }
-              }
-            }
-
-            let newTrip = {
-              id: crypto.randomUUID(),
-              tripName: document.querySelector("#tripNameForm").value.trim(),
-              location: document.querySelector("#locationName").value.trim(),
-              users: newtripusers,
-              start: document.querySelector("#startDate").value,
-              end: document.querySelector("#endDate").value,
-              status: "upcoming",
-              lat: data[0].lat,
-              lon: data[0].lon,
-            };
-
-            // console.log(newTrip);
-            if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
-              userTrips.push(newTrip);
-              // console.log(userTrips)
-              localStorage.setItem("trips", JSON.stringify(userTrips));
-              document.querySelector("#tripNameForm").value = "";
-              document.querySelector("#locationName").value = "";
-              document.querySelector("#startDate").value = "";
-              document.querySelector("#endDate").value = "";
-            }
-
           }
-        });
-    } else {
-      // to do handle invalid keys on the form
-      alert("Please fill in all required fields correctly.");
-    }
+          const newtripusers = [];
+          for (const userlistitem of userList) {
+            for (const selecteduser of userSelections) {
+              if (userlistitem.userid == selecteduser) {
+                newtripusers.push(userlistitem);
+              }
+            }
+          }
+   
+          const dateCheck = handleDateCheck(document.querySelector("#startDate").value, document.querySelector("#endDate").value, newtripusers)
+          if (dateCheck !== undefined) {
+            alert(`${dateCheck[0].name} has an existing trip to ${dateCheck[0].trip} during this time. Please select new dates.`)
+          } else {
 
-  });
+ 
+
+          let newTrip = {
+            id: crypto.randomUUID(),
+            tripName: document.querySelector("#tripNameForm").value.trim(),
+            location: document.querySelector("#locationName").value.trim(),
+            users: newtripusers,
+            start: document.querySelector("#startDate").value,
+            end: document.querySelector("#endDate").value,
+            status: "upcoming",
+            lat: data[0].city.coord.lat,
+            lon: data[0].city.coord.lon,
+            icon: data[0].list[0].weather[0].icon
+          };
+
+          // console.log(newTrip);
+          if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
+            //GM - adding fix to add multiple trips
+            let tripArr = userTrips;
+            tripArr.push(newTrip);
+            // console.log(userTrips)
+            localStorage.setItem("trips", JSON.stringify(tripArr));
+            document.querySelector("#tripNameForm").value = "";
+            document.querySelector("#locationName").value = "";
+            document.querySelector("#startDate").value = "";
+            document.querySelector("#endDate").value = "";
+            travelModal.style.display = "none";
+            $("#data").removeClass("hidden");
+            $("#no-data").addClass("hidden");
+            $("#show-map").removeClass("hidden");
+            //Call the function to create the dashboard cards
+            dashboardEl.empty();
+            createDashboard();
+          }
+        }
+        }
+      });
+  } else {
+    // to do handle invalid keys on the form
+    alert("Please fill in all required fields correctly.");
+  }
+});
 
 // Populate the users dropdown from local storage
 // Example:
@@ -201,17 +256,7 @@ const handleSelectUsers = () => {
     usersDropdown.appendChild(option); // Add the option to the select
   }
 };
-// event listener for the travel modal submission
-const handleTravelPlanSubmit = () => {
-  // Handle form submission (you'll need to implement this)
-  const submitButton = document.getElementById("#submitTravel");
-  submitButton.addEventListener("click", function () { });
-  $("#data").removeClass("hidden");
-  $("#no-data").addClass("hidden");
-};
 
-//Call the function to create the dashboard cards
-// createDashboard();
 
 //-------------Dashboard -----------------------------
 
@@ -239,12 +284,8 @@ const calculateTime = (seconds) => {
   const calcHour = Math.floor(time / 3600);
   const calcMinutes = Math.floor((time % 3600) / 60);
 
-  const hour =
-    calcHour > 0 ? calcHour + (calcHour == 1 ? " hour, " : " hours, ") : "";
-  var minutes =
-    calcMinutes > 0
-      ? calcMinutes + (calcMinutes == 1 ? " minute " : " minutes ")
-      : "";
+  const hour = calcHour > 0 ? calcHour + (calcHour == 1 ? " hour, " : " hours, ") : "";
+  var minutes = calcMinutes > 0 ? calcMinutes + (calcMinutes == 1 ? " minute " : " minutes ") : "";
   return hour + minutes;
 };
 
@@ -297,52 +338,44 @@ const calculateDistance = async (homeCoordinates, destinationCoordinates) => {
 //Get the coordinates of the location for the distance api
 const getCoordinates = async (city) => {
   let cityName = city.toLowerCase();
-  const response = await axios.get(
-    `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`
-  );
+  const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
   const result = response.data;
   const dataString = `${result[0].lat},${result[0].lon}`;
   return dataString;
 };
 
 //Get list of local activities - Amadeus API
-const getActivities = async (lat, lon) => {
-  const urlencoded = new URLSearchParams();
-  urlencoded.append("client_id", AMADEUS_KEY);
-  urlencoded.append("client_secret", AMADEUS_API);
-  urlencoded.append("grant_type", "client_credentials");
+// const getActivities = async (lat, lon) => {
+//   const urlencoded = new URLSearchParams();
+//   urlencoded.append("client_id", AMADEUS_KEY);
+//   urlencoded.append("client_secret", AMADEUS_API);
+//   urlencoded.append("grant_type", "client_credentials");
 
-  const requestOptions = {
-    method: "POST",
-    body: urlencoded,
-    redirect: "follow",
-  };
-  //get the token for API
-  let token = await fetch(
-    "https://api.amadeus.com/v1/security/oauth2/token",
-    requestOptions
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      return data;
-    });
-  const headers = { Authorization: `Bearer ${token.access_token}` };
+//   const requestOptions = {
+//     method: "POST",
+//     body: urlencoded,
+//     redirect: "follow",
+//   };
+//   //get the token for API
+//   let token = await fetch("https://api.amadeus.com/v1/security/oauth2/token", requestOptions)
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       return data;
+//     });
+//   const headers = { Authorization: `Bearer ${token.access_token}` };
 
-  //Get the activity data
-  let activity = await fetch(
-    `https://api.amadeus.com/v1/reference-data/locations/pois?latitude=${lat}&longitude=${lon}&radius=2`,
-    { headers }
-  )
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (datas) {
-      return datas;
-    });
-  return activity;
-};
+//   //Get the activity data
+//   let activity = await fetch(`https://api.amadeus.com/v1/reference-data/locations/pois?latitude=${lat}&longitude=${lon}&radius=2`, { headers })
+//     .then(function (response) {
+//       return response.json();
+//     })
+//     .then(function (datas) {
+//       return datas;
+//     });
+//   return activity;
+// };
 
 //Check if any of the trips are happening now, or passed
 const handlePastTrips = () => {
@@ -427,86 +460,29 @@ const handleSortTrip = (trips) => {
       }
       if (tripA > tripB) {
         return 1;
+      } else {
+        return 0;
+
       }
-      return 0;
     });
   }
 
   return uniqueArr;
 };
 
-const getLocationData = () => {
-  const savedTrips = handlePastTrips();
-  if (savedTrips !== null) {
-    savedTrips.map(async (trip) => {
-      //Get the weather icon
-      const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${trip.location}&limit=1&appid=${API_KEY}`;
-      const getIcon = await fetch(geoUrl)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          return Promise.all(
-            data.map((item) => {
-              return fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?lat=${item.lat}&lon=${item.lon}&units=metric&appid=${API_KEY}`
-              ).then(function (data) {
-                return data.json();
-              });
-            })
-          );
-        })
-        .then(function (data) {
-          // console.log(data[0].city.coord.lat);
-          // console.log(data[0].city.coord.lon);
-          // console.log(data[0].list[0].weather[0].icon);
-
-          let newTripObj = {
-            id: trip.id,
-            location: trip.location,
-            tripName: trip.tripName,
-            start: trip.start,
-            end: trip.end,
-            travelType: trip.travelType,
-            status: trip.status,
-            users: trip.users,
-            lat: data[0].city.coord.lat,
-            lon: data[0].city.coord.lon,
-            icon: data[0].list[0].weather[0].icon,
-          };
-
-          let newTrip = JSON.parse(localStorage.getItem("newTrips"));
-          if (newTrip === null) {
-            newTrip = localStorage.setItem(
-              "newTrips",
-              JSON.stringify([newTripObj])
-            );
-          } else if (Array.isArray(newTrip)) {
-            let tripArr = newTrip;
-            tripArr.push(newTripObj);
-            localStorage.setItem("newTrips", JSON.stringify(tripArr));
-          }
-        });
-    });
-  }
-  createDashboard();
-};
-
 //Dashboard - Function is called on page load, and creating a new trip to dynamically create the dashboard from local storage data.
 const createDashboard = () => {
   //Get the saved local data of trips and users
-  const newTrips = JSON.parse(localStorage.getItem("newTrips"));
-  const sortedTrips = handleSortTrip(newTrips);
+  const savedTrips = handlePastTrips();
+  const sortedTrips = handleSortTrip(savedTrips);
   const savedUsers = getLocalUsers();
   let icons;
   let countdownTime;
 
-  // Map through each saved trip to create data
+  // Map through each saved trip to create data & create Bulma card
   sortedTrips.map(async (trip) => {
-    console.log(trip)
     const activities = await getActivities(trip.lat, trip.lon);
 
-    //Create the main Bulma card for each trip
     //get the countdown time from dayjs function
     if (trip.status === "upcoming") {
       countdownTime = calculateCountdown(trip.start);
@@ -516,109 +492,48 @@ const createDashboard = () => {
       countdownTime = "Completed";
     }
     //Create the card
-    const card = $("<div></div>")
-      .addClass("card fixed-grid has-5-cols")
-      .attr("id", "travel-card")
-      .appendTo(dashboardEl);
+    const card = $("<div></div>").addClass("card fixed-grid has-5-cols").attr("id", "travel-card").appendTo(dashboardEl);
     //Create the header
-    const header = $("<header></header>")
-      .addClass("card-header grid")
-      .appendTo(card);
+    const header = $("<header></header>").addClass("card-header grid").appendTo(card);
     const status = $("<div></div>").addClass("status").appendTo(header);
     //Assigns correct icon to the card
     if (trip.status === "upcoming") {
-      $("<i></i>")
-        .addClass("fa-solid fa-suitcase-rolling has-text-primary")
-        .appendTo(status);
+      $("<i></i>").addClass("fa-solid fa-suitcase-rolling has-text-primary").appendTo(status);
     } else if (trip.status === "completed") {
       $("<i></i>").addClass("fa-solid fa-circle-check").appendTo(status);
     } else {
       $("<i></i>").addClass("fa-solid fa-plane-departure").appendTo(status);
     }
-    $("<p></p>")
-      .addClass("cell card-header-title is-flex")
-      .text(trip.tripName)
-      .appendTo(status);
-    $("<p></p>")
-      .addClass("cell card-header-title")
-      .text(trip.location)
-      .appendTo(header);
-    $("<p></p>")
-      .addClass("cell card-header-title")
-      .text(countdownTime)
-      .appendTo(header);
-    $("<img />")
-      .addClass("cell card-header-title")
-      .attr("src", `https://openweathermap.org/img/w/${trip.icon}.png`)
-      .appendTo(header);
+    $("<p></p>").addClass("cell card-header-title is-flex").text(trip.tripName).appendTo(status);
+    $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(header);
+    $("<p></p>").addClass("cell card-header-title").text(countdownTime).appendTo(header);
+    $("<img />").addClass("cell card-header-title").attr("src", `https://openweathermap.org/img/w/${trip.icon}.png`).appendTo(header);
 
-    const buttonHolder = $("<div></div>")
-      .addClass("button-holder is-flex is-flex-direction-row	")
-      .appendTo(header);
+    const buttonHolder = $("<div></div>").addClass("button-holder is-flex is-flex-direction-row	").appendTo(header);
     //Create the accordion button
-    const downButton = $("<button></button>")
-      .addClass("card-header-icon")
-      .attr("id", "open-icon")
-      .attr("value", trip.id)
-      .appendTo(buttonHolder);
-    $("<i></i>")
-      .addClass("fas fa-angle-down has-text-black")
-      .attr("id", "down-icon")
-      .attr("value", trip.id)
-      .appendTo(downButton);
+    const downButton = $("<button></button>").addClass("card-header-icon").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
+    $("<i></i>").addClass("fas fa-angle-down has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
 
     //create the delete button
-    const deleteButton = $("<button></button>")
-      .addClass("card-header-icon")
-      .attr("id", "delete-icon")
-      .attr("value", trip.id)
-      .appendTo(buttonHolder);
-    $("<i></i>")
-      .addClass("fas fa-trash has-text-black")
-      .attr("id", "down-icon")
-      .attr("value", trip.id)
-      .appendTo(deleteButton);
+    const deleteButton = $("<button></button>").addClass("card-header-icon").attr("id", "delete-icon").attr("value", trip.id).appendTo(buttonHolder);
+    const deleteSpan = $('<span></span>').appendTo(deleteButton)
+    $("<i></i>").addClass("fas fa-trash has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
 
     //Create the content
-    const content = $("<div></div>")
-      .addClass("card-content hidden")
-      .attr("id", trip.id)
-      .appendTo(card);
-    const contentInner = $("<div></div>")
-      .addClass("content level")
-      .appendTo(content);
+    const content = $("<div></div>").addClass("card-content hidden").attr("id", trip.id).appendTo(card);
+    const contentInner = $("<div></div>").addClass("content level").appendTo(content);
 
     //The User left side
-    const userInner = $("<div></div>")
-      .addClass("content level-left has-background-primary-light p-5")
-      .appendTo(contentInner);
-    $("<h4></h4>")
-      .addClass("mt-1 is-size-3")
-      .text("Travel Partners")
-      .appendTo(userInner);
+    const userInner = $("<div></div>").addClass("content level-left has-background-primary-light p-5").appendTo(contentInner);
+    $("<h4></h4>").addClass("mt-1 is-size-3").text("Travel Partners").appendTo(userInner);
     //Header for each user section
-    const travelHeader = $("<div></div>")
-      .addClass("fixed-grid has-4-cols")
-      .appendTo(userInner);
-    const travelGrid = $("<div></div>")
-      .addClass("grid travel-title")
-      .appendTo(travelHeader);
+    const travelHeader = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
+    const travelGrid = $("<div></div>").addClass("grid travel-title").appendTo(travelHeader);
     $("<h5></h5>").addClass("cell mt-1").text("User").appendTo(travelGrid);
-    $("<h5></h5>")
-      .addClass("cell mt-1")
-      .text("Home Location")
-      .appendTo(travelGrid);
-    $("<h5></h5>")
-      .addClass("cell mt-1")
-      .text("Travel Mode")
-      .appendTo(travelGrid);
-    $("<h5></h5>")
-      .addClass("cell mt-1")
-      .text("Approx Duration")
-      .appendTo(travelGrid);
-    const travelData = $("<div></div>")
-      .addClass("fixed-grid has-4-cols")
-      .appendTo(userInner);
+    $("<h5></h5>").addClass("cell mt-1").text("Home Location").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1").text("Travel Mode").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1").text("Approx Duration").appendTo(travelGrid);
+    const travelData = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
 
     //Map through each user to create a record to show user, home location and distance
     if (trip.users.length > 0) {
@@ -626,7 +541,6 @@ const createDashboard = () => {
         //Filter all users to get current user data
         const localUser = savedUsers.filter(
           // (savedUser) => user.name === savedUser.firstname
-          //TODO : Gayle to check this below change
           (savedUser) => user.userid === savedUser.userid
         );
 
@@ -638,40 +552,19 @@ const createDashboard = () => {
         //Create a unique id for each travel mode dropdown
         const tripName = trip.tripName.toLowerCase().replace(/\s/g, "");
         const tripId = `${localUser[0].firstname}-${tripName}`;
-        const userDiv = $("<div></div>")
-          .addClass("grid travel-data")
-          .appendTo(travelData);
-        $("<p></p>")
-          .addClass("cell name")
-          .text(localUser[0].firstname)
-          .appendTo(userDiv);
-        $("<p></p>")
-          .addClass("cell city")
-          .text(localUser[0].usercity)
-          .appendTo(userDiv);
+        const userDiv = $("<div></div>").addClass("grid travel-data").appendTo(travelData);
+        $("<p></p>").addClass("cell name").text(localUser[0].firstname).appendTo(userDiv);
+        $("<p></p>").addClass("cell city").text(localUser[0].usercity).appendTo(userDiv);
         $("<p></p>").addClass("cell mode").text(travel.mode).appendTo(userDiv);
-        $("<p></p>")
-          .addClass("cell duration")
-          .attr("id", "duration")
-          .text(travel.time)
-          .appendTo(userDiv);
+        $("<p></p>").addClass("cell duration").attr("id", "duration").text(travel.time).appendTo(userDiv);
       });
       //The activities right side
-      const activityInner = $("<div></div>")
-        .addClass("content level-right has-background-primary-dark p-5")
-        .appendTo(contentInner);
-      $("<h4></h4>")
-        .addClass("mt-1 is-size-3")
-        .text("Activity Ideas")
-        .appendTo(activityInner);
+      const activityInner = $("<div></div>").addClass("content level-right has-background-primary-dark p-5").appendTo(contentInner);
+      $("<h4></h4>").addClass("mt-1 is-size-3").text("Activity Ideas").appendTo(activityInner);
       const activityul = $("<ul></ul>").addClass("").appendTo(activityInner);
 
       activities.data.map((activity) => {
-        console.log(activity);
-        $("<li></li>")
-          .addClass("sight")
-          .text(`${activity.name} - ${activity.tags[0]}`)
-          .appendTo(activityul);
+        $("<li></li>").addClass("sight").text(`${activity.name} - ${activity.tags[0]}`).appendTo(activityul);
       });
     }
   });
@@ -680,16 +573,31 @@ const createDashboard = () => {
 //----------Event Handlers---------------
 
 //Add in travel button handler
-getLocationData();
+createDashboard();
 
 //Event handler for opening the accordion. Checks if main button is clicked, or just the icon
 $("#data").on("click", function (e) {
+
   if (e.target.id === "open-icon") {
     const cardData = $(`#${e.target.value}`);
     cardData.toggleClass("hidden");
   } else if (e.target.id === "down-icon") {
     const iconData = $(`#${e.target.attributes[2].value}`);
     iconData.toggleClass("hidden");
+
+    //Delete travel cards
+  } else if (e.target.id === "delete-icon") {
+    let trips = getTrips();
+    let tripsArr = trips
+    trips.map((trip) => {
+      if (e.target.value === trip.id) {
+        let removeItem = tripsArr.filter(trip => trip.id != e.target.value);
+        localStorage.setItem("trips", JSON.stringify(removeItem));
+        dashboardEl.empty();
+        createDashboard();
+
+      }
+    })
   }
 });
 
@@ -701,6 +609,10 @@ $(".sort-button").on("click", function (e) {
   dashboardEl.empty();
   createDashboard();
 });
+
+$('#delete-icon').on("click", function(e) {
+  console.log(e)
+})
 
 //Add User Code Starts - Shweta
 
@@ -714,14 +626,7 @@ const userCityEl = $("#user-city");
 const userCountryEl = $("#user-country");
 const userZipCodeEl = $("#user-zipcode");
 
-const allFields = $([])
-  .add(userFirstNameEl)
-  .add(userLastNameEl)
-  .add(userDateOfBirthEl)
-  .add(userAddressEl)
-  .add(userCityEl)
-  .add(userCountryEl)
-  .add(userZipCodeEl);
+const allFields = $([]).add(userFirstNameEl).add(userLastNameEl).add(userDateOfBirthEl).add(userAddressEl).add(userCityEl).add(userCountryEl).add(userZipCodeEl);
 const userErrMsgEl = $(".validateTips");
 const userSuccessMsgEl = $(".successMsg");
 const MINOR_AGE_LIMIT = 12;
@@ -780,9 +685,7 @@ function addUser() {
       isMinorAge = true;
     }
 
-    console.log(
-      `The person's age is approximately ${ageInYears} years and is minor check: ${isMinorAge}`
-    );
+    console.log(`The person's age is approximately ${ageInYears} years and is minor check: ${isMinorAge}`);
 
     let newUserToCreate = {
       userid: crypto.randomUUID(),
@@ -807,9 +710,7 @@ function addUser() {
       fetch(geoUrl)
         .then(function (response) {
           if (!response.ok) {
-            alert(
-              `Error Msg: ${response.statusText}. Redirecting to error page.`
-            );
+            alert(`Error Msg: ${response.statusText}. Redirecting to error page.`);
             location.href = redirectUrl;
           } else {
             return response.json();
@@ -818,9 +719,7 @@ function addUser() {
         .then(function (data) {
           if (!Object.keys(data).length) {
             console.log("No data found");
-            alert(
-              `Error Msg: No data found :Invalid city. Redirecting to error page.`
-            );
+            alert(`Error Msg: No data found :Invalid city. Redirecting to error page.`);
             location.href = redirectUrl;
           } else {
             console.log("Data received:", data);
@@ -941,19 +840,9 @@ async function initMap() {
   if (addedUsers != null || addedTrips != null) {
     for (const user of addedUsers) {
       addMapMarkers({
-        locationcoords: new google.maps.LatLng(
-          user.userlocationcoordinates.lat,
-          user.userlocationcoordinates.lon
-        ),
+        locationcoords: new google.maps.LatLng(user.userlocationcoordinates.lat, user.userlocationcoordinates.lon),
         markerimg: "./assets/images/userlocationpin.png",
-        markerInfo:
-          "Info ( User Name : " +
-          user.firstname +
-          " " +
-          user.lastname +
-          " & City : " +
-          user.usercity +
-          " )",
+        markerInfo: "Info ( User Name : " + user.firstname + " " + user.lastname + " & City : " + user.usercity + " )",
       });
     }
 
@@ -961,7 +850,7 @@ async function initMap() {
       addMapMarkers({
         locationcoords: new google.maps.LatLng(trip.lat, trip.lon),
         markerimg: "./assets/images/travellocationpin.png",
-        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
+        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map((user) => user.firstname) + " )",
       });
     }
 
@@ -973,10 +862,7 @@ async function initMap() {
       markerInformation.textContent = markerDetails.markerInfo;
 
       //if no custom marker image then default marker pin
-      if (
-        markerDetails.markerimg != null ||
-        markerDetails.markerimg != undefined
-      ) {
+      if (markerDetails.markerimg != null || markerDetails.markerimg != undefined) {
         markerImage = document.createElement("img");
         markerImage.src = markerDetails.markerimg;
       }
@@ -1034,9 +920,7 @@ async function initMap() {
         a.nonce = m.querySelector("script[nonce]")?.nonce || "";
         m.head.append(a);
       }));
-  d[l]
-    ? console.warn(p + " only loads once. Ignoring:", g)
-    : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+  d[l] ? console.warn(p + " only loads once. Ignoring:", g) : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
 })({
   key: API_KEY_MAPS,
   v: "weekly",
