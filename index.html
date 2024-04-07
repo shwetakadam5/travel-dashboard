@@ -21,18 +21,28 @@
     <h1>Travel Dashboard</h1>
   </header>
   <main>
+    <div id="no-data" class="hidden has-background-white">
+      <div class="container">
+        <h2 class="has-text-primary">Welcome to your Travel Dashboard</h2>
+        <h3>The central location for all your family trip plans.</h3>
+        <p>To get started:</p>
+        <ol class="instructions">
+          <li>Click 'Add Users" to input your travel partners</li>
+          <li>Once users are added, click "Add Trip" to input your upcoming trips</li>
+          <li>Keep track of them in the dashboard</li>
+        </ol>
+      </div>
+    </div>
+    <div class="button-container">
     <button id="add-user" type="button" class="add-button has-background-primary-link has-text-black is-hovered">Add
       User</button>
     <button id="add-travel" type="button" class="add-button has-background-primary-link has-text-black is-hovered"
       disabled>Add
       Travel</button>
-    <div id="map"></div>
-    <div id="no-data" class="hidden">
-      <div class="container">
-        <h2>Welcome to your Travel Dashboard</h2>
-        <p>Add your travel partners details, then add trips to see them all in one place.</p>
-      </div>
+      <button id="show-map" type="button" class="add-button has-background-primary-link has-text-black is-hovered "
+      ><a class="has-text-black" href="#map">Show Map</a></button>
     </div>
+
 
     <div id="data" class="hidden">
       <div id="trip-inner" class="container">
@@ -57,6 +67,8 @@
         <div class="all-trips" id="all-trips"></div>
       </div>
     </div>
+
+    <div id="map"></div>
 
     <!-- Start Created a modal with a form to add users -->
 
@@ -242,7 +254,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2024 Travel Dashboard. All rights reserved to leapFrogs.</p>
+    <p>&copy; <span id="year"></span> Travel Dashboard. All rights reserved to leapFrogs.</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

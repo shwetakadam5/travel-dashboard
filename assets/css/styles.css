@@ -2,9 +2,10 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url(../images/pexels-pixabay-221345.jpg);
+  overflow-x: unset;
+  /* background-image: url(../images/pexels-pixabay-221345.jpg);
   background-size: cover;
-  background-position: center;
+  background-position: center; */
 }
 
 
@@ -22,8 +23,11 @@ header {
 .container {
   margin: 20px auto;
   text-align: center;
+  display: grid;
 }
-
+main {
+  display: grid;
+}
 .add-button {
   border: none;
   padding: 15px 32px;
@@ -31,11 +35,13 @@ header {
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
+  font-weight: 700;
 }
 
 .add-button:hover {
   font-size: 17px;
   transition: font-size 0.3s;
+  font-weight: 600;
 }
 
 .add-button:disabled {
@@ -72,7 +78,8 @@ footer {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 25% auto;
+  /* Changed the travel model to flex instead of block so margin isn't required. Not sure how affects users modal */
+  /* margin: 25% auto; */
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
@@ -107,6 +114,14 @@ footer {
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
+
+.instructions {
+  justify-self: center;
+  margin: 0 5rem;
+  li {
+    text-align: left;
+  }
 }
 /* -------------Dashboard Style-------------*/
 h4:first-child.cell {
@@ -164,6 +179,19 @@ img.card-header-title {
 #data {
   margin-top: 5rem;
   margin-bottom: 5rem;
+}
+
+#no-data {
+  margin: 0 auto;
+  max-width: 800px;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
 
 
@@ -276,6 +304,11 @@ img.card-header-title {
 #map {
   height: 400px;
   width: 100%;
+  max-width: 800px;
+  border: 2px solid black;
+  border-radius: var(--border-radius);
+  justify-self: center;
+  margin-bottom: 4rem;
 }
 
 /* Added the styling changes for the user modal dialog */
