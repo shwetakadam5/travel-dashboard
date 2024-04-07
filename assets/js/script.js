@@ -166,7 +166,7 @@ document
             };
 
             // console.log(newTrip);
-            if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
+            if (!userTrips.some((trip) => trip.id === newTrip.id)) {
               userTrips.push(newTrip);
               // console.log(userTrips)
               localStorage.setItem("trips", JSON.stringify(userTrips));
@@ -731,13 +731,9 @@ function updateErrorMsg(errMsg) {
 
 //Function to validate the input fields of the user
 function checkLength(textInput, fieldName) {
-  if (textInput.val() == "") {
+  if (textInput.val().trim() == "") {
     textInput.addClass("ui-state-error");
-    updateErrorMsg(fieldName + " is required.");
-    return false;
-  } else if (textInput.val() == " ") {
-    textInput.addClass("ui-state-error");
-    updateErrorMsg(fieldName + " must be valid");
+    updateErrorMsg(fieldName + " is required and must be valid");
     return false;
   } else {
     return true;
