@@ -185,6 +185,38 @@ submit.addEventListener("click", async function () {
             if (option.selected) {
               userSelections.push(option.value);
             }
+            const newtripusers = [];
+            for (const userlistitem of userList) {
+              for (const selecteduser of userSelections) {
+                if (userlistitem.userid == selecteduser) {
+                  newtripusers.push(userlistitem);
+                }
+              }
+            }
+
+            let newTrip = {
+              id: crypto.randomUUID(),
+              tripName: document.querySelector("#tripNameForm").value.trim(),
+              location: document.querySelector("#locationName").value.trim(),
+              users: newtripusers,
+              start: document.querySelector("#startDate").value,
+              end: document.querySelector("#endDate").value,
+              status: "upcoming",
+              lat: data[0].lat,
+              lon: data[0].lon,
+            };
+
+            // console.log(newTrip);
+            if (!userTrips.some((trip) => trip.id === newTrip.id)) {
+              userTrips.push(newTrip);
+              // console.log(userTrips)
+              localStorage.setItem("trips", JSON.stringify(userTrips));
+              document.querySelector("#tripNameForm").value = "";
+              document.querySelector("#locationName").value = "";
+              document.querySelector("#startDate").value = "";
+              document.querySelector("#endDate").value = "";
+            }
+
           }
           const newtripusers = [];
           for (const userlistitem of userList) {
@@ -641,13 +673,9 @@ function updateErrorMsg(errMsg) {
 
 //Function to validate the input fields of the user
 function checkLength(textInput, fieldName) {
-  if (textInput.val() == "") {
+  if (textInput.val().trim() == "") {
     textInput.addClass("ui-state-error");
-    updateErrorMsg(fieldName + " is required.");
-    return false;
-  } else if (textInput.val() == " ") {
-    textInput.addClass("ui-state-error");
-    updateErrorMsg(fieldName + " must be valid");
+    updateErrorMsg(fieldName + " is required and must be valid");
     return false;
   } else {
     return true;
