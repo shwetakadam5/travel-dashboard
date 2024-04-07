@@ -377,37 +377,37 @@ const getCoordinates = async (city) => {
 };
 
 //Get list of local activities - Amadeus API
-// const getActivities = async (lat, lon) => {
-//   const urlencoded = new URLSearchParams();
-//   urlencoded.append("client_id", AMADEUS_KEY);
-//   urlencoded.append("client_secret", AMADEUS_API);
-//   urlencoded.append("grant_type", "client_credentials");
+const getActivities = async (lat, lon) => {
+  const urlencoded = new URLSearchParams();
+  urlencoded.append("client_id", AMADEUS_KEY);
+  urlencoded.append("client_secret", AMADEUS_API);
+  urlencoded.append("grant_type", "client_credentials");
 
-//   const requestOptions = {
-//     method: "POST",
-//     body: urlencoded,
-//     redirect: "follow",
-//   };
-//   //get the token for API
-//   let token = await fetch("https://api.amadeus.com/v1/security/oauth2/token", requestOptions)
-//     .then(function (response) {
-//       return response.json();
-//     })
-//     .then(function (data) {
-//       return data;
-//     });
-//   const headers = { Authorization: `Bearer ${token.access_token}` };
+  const requestOptions = {
+    method: "POST",
+    body: urlencoded,
+    redirect: "follow",
+  };
+  //get the token for API
+  let token = await fetch("https://api.amadeus.com/v1/security/oauth2/token", requestOptions)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+  const headers = { Authorization: `Bearer ${token.access_token}` };
 
-//   //Get the activity data
-//   let activity = await fetch(`https://api.amadeus.com/v1/reference-data/locations/pois?latitude=${lat}&longitude=${lon}&radius=2`, { headers })
-//     .then(function (response) {
-//       return response.json();
-//     })
-//     .then(function (datas) {
-//       return datas;
-//     });
-//   return activity;
-// };
+  //Get the activity data
+  let activity = await fetch(`https://api.amadeus.com/v1/reference-data/locations/pois?latitude=${lat}&longitude=${lon}&radius=2`, { headers })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (datas) {
+      return datas;
+    });
+  return activity;
+};
 
 //Check if any of the trips are happening now, or passed
 const handlePastTrips = () => {
