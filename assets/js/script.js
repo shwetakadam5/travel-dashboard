@@ -9,10 +9,13 @@ dayjs.extend(window.dayjs_plugin_relativeTime);
 dayjs.extend(window.dayjs_plugin_isBetween);
 const API_KEY = "57693c20cc9de93006be32fd645ff9bb";
 const GOOGLE_API = "AIzaSyBSGf6-LnqBBH9jGh_W2Irz3_DVhtad92s";
-const AMADEUS_KEY = "9NO4ZDUdtIAhIKrfo7eBN9R9ZGEwhAEi";
-const AMADEUS_API = "DdkaO6Obdbdzfs1g";
+const AMADEUS_KEY = "mrEHjcteCO3BiOmdvrG2FBwo6oXb0MlF";
+const AMADEUS_API = "NA55GdY4z1oK26uo";
 
 //--------------------Homepage -----------------------
+//Show the current year in the footer - GM
+const year = dayjs().format('YYYY');
+$('#year').text(year);
 
 //--------------------Users---------------------------
 //Function to get users from local storage
@@ -22,7 +25,6 @@ const getLocalUsers = () => {
 };
 
 //Function to save the users to the local storage.
-
 const addUsers = (newUserDetails) => {
   let users = getLocalUsers();
 
@@ -79,6 +81,7 @@ closeBtnTravelc.addEventListener("click", function () {
   document.querySelector("#locationName").value = "";
   document.querySelector("#startDate").value = "";
   document.querySelector("#endDate").value = "";
+
   travelModal.style.display = "none";
   // document.querySelector('.close-btn').addEventListener('click', function() {
   //   document.getElementById('travelModal').style.display = 'none';
@@ -88,7 +91,7 @@ closeBtnTravelc.addEventListener("click", function () {
 // Event listener for button click
 btn.addEventListener("click", function () {
   // Show the modal (make it visible)
-  travelModal.style.display = "block";
+  travelModal.style.display = "flex";
   let users = getLocalUsers();
   for (let index = 0; index < users.length; index++) {
     console.log(users);
@@ -295,7 +298,7 @@ const getCoordinates = async (city) => {
 };
 
 //Get list of local activities - Amadeus API
-const getActivities = async () => {
+const getActivities = async (lat, lon) => {
   const urlencoded = new URLSearchParams();
   urlencoded.append("client_id", AMADEUS_KEY);
   urlencoded.append("client_secret", AMADEUS_API);
@@ -308,7 +311,7 @@ const getActivities = async () => {
   };
   //get the token for API
   let token = await fetch(
-    "https://test.api.amadeus.com/v1/security/oauth2/token",
+    "https://api.amadeus.com/v1/security/oauth2/token",
     requestOptions
   )
     .then(function (response) {
@@ -320,17 +323,17 @@ const getActivities = async () => {
   const headers = { Authorization: `Bearer ${token.access_token}` };
 
   //Get the activity data
-  // let activity = await fetch(
-  //   "https://test.api.amadeus.com/v1/reference-data/locations/pois?latitude=41.397158&longitude=2.160873&radius=2",
-  //   { headers }
-  // )
-  //   .then(function (response) {
-  //     return response.json();
-  //   })
-  //   .then(function (datas) {
-  //     return datas;
-  //   });
-  // return activity;
+  let activity = await fetch(
+    `https://api.amadeus.com/v1/reference-data/locations/pois?latitude=${lat}&longitude=${lon}&radius=2`,
+    { headers }
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (datas) {
+      return datas;
+    });
+  return activity;
 };
 
 //Check if any of the trips are happening now, or passed
@@ -482,17 +485,19 @@ const getLocationData = () => {
 };
 
 //Dashboard - Function is called on page load, and creating a new trip to dynamically create the dashboard from local storage data.
-const createDashboard = async () => {
+const createDashboard = () => {
   //Get the saved local data of trips and users
-  const newTrips = JSON.parse(localStorage.getItem("trips"));
+  const newTrips = JSON.parse(localStorage.getItem("newTrips"));
   const sortedTrips = handleSortTrip(newTrips);
   const savedUsers = getLocalUsers();
-  let activities = await getActivities();
   let icons;
   let countdownTime;
 
   // Map through each saved trip to create data
-  sortedTrips.map((trip) => {
+  sortedTrips.map(async (trip) => {
+    console.log(trip)
+    const activities = await getActivities(trip.lat, trip.lon);
+
     //Create the main Bulma card for each trip
     //get the countdown time from dayjs function
     if (trip.status === "upcoming") {
