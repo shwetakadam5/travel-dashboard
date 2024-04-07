@@ -128,7 +128,7 @@ const handleDateCheck = (start, end, users) => {
         })
       }
     });
-
+    console.log(duplicateArr)
   return duplicateArr;
   }
 };
@@ -176,16 +176,15 @@ submit.addEventListener("click", async function () {
         } else {
           console.log("Data received:", data);
 
-
-
           // Code to fix the issue of multi selection of users
           let userList = getLocalUsers();
           const userSelections = [];
+          const newtripusers = [];
           for (const option of document.querySelector("#users").options) {
             if (option.selected) {
               userSelections.push(option.value);
             }
-            const newtripusers = [];
+          }
             for (const userlistitem of userList) {
               for (const selecteduser of userSelections) {
                 if (userlistitem.userid == selecteduser) {
@@ -193,42 +192,10 @@ submit.addEventListener("click", async function () {
                 }
               }
             }
-
-            let newTrip = {
-              id: crypto.randomUUID(),
-              tripName: document.querySelector("#tripNameForm").value.trim(),
-              location: document.querySelector("#locationName").value.trim(),
-              users: newtripusers,
-              start: document.querySelector("#startDate").value,
-              end: document.querySelector("#endDate").value,
-              status: "upcoming",
-              lat: data[0].lat,
-              lon: data[0].lon,
-            };
-
-            // console.log(newTrip);
-            if (!userTrips.some((trip) => trip.id === newTrip.id)) {
-              userTrips.push(newTrip);
-              // console.log(userTrips)
-              localStorage.setItem("trips", JSON.stringify(userTrips));
-              document.querySelector("#tripNameForm").value = "";
-              document.querySelector("#locationName").value = "";
-              document.querySelector("#startDate").value = "";
-              document.querySelector("#endDate").value = "";
-            }
-
-          }
-          const newtripusers = [];
-          for (const userlistitem of userList) {
-            for (const selecteduser of userSelections) {
-              if (userlistitem.userid == selecteduser) {
-                newtripusers.push(userlistitem);
-              }
-            }
-          }
-   
+         
+          //Calls date function to check for overlapping trips
           const dateCheck = handleDateCheck(document.querySelector("#startDate").value, document.querySelector("#endDate").value, newtripusers)
-          if (dateCheck !== undefined) {
+          if (dateCheck.length > 0) {
             alert(`${dateCheck[0].name} has an existing trip to ${dateCheck[0].trip} during this time. Please select new dates.`)
           } else {
 
@@ -247,12 +214,10 @@ submit.addEventListener("click", async function () {
             icon: data[0].list[0].weather[0].icon
           };
 
-          // console.log(newTrip);
           if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
-            //GM - adding fix to add multiple trips
+            //GM - adding fix to prevent duplicate trips
             let tripArr = userTrips;
             tripArr.push(newTrip);
-            // console.log(userTrips)
             localStorage.setItem("trips", JSON.stringify(tripArr));
             document.querySelector("#tripNameForm").value = "";
             document.querySelector("#locationName").value = "";
@@ -262,6 +227,7 @@ submit.addEventListener("click", async function () {
             $("#data").removeClass("hidden");
             $("#no-data").addClass("hidden");
             $("#show-map").removeClass("hidden");
+            
             //Call the function to create the dashboard cards
             dashboardEl.empty();
             createDashboard();
