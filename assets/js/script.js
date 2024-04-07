@@ -47,7 +47,7 @@ const getTrips = () => {
 };
 
 //Function to save the trips to the local storage.
-const addTrip = () => {};
+const addTrip = () => { };
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -108,7 +108,7 @@ document
   .addEventListener("click", async function () {
     // let user = document.querySelector("#users").value
     let userTrips = getTrips();
-    let valid= true;
+    let valid = true;
     valid = valid && checkLength($("#tripNameForm"), "Trip Name");
     valid = valid && checkLength($("#locationName"), "Destination City");
     valid = valid && checkLength($("#startDate"), "Trip Start Date");
@@ -139,15 +139,23 @@ document
           } else {
             console.log("Data received:", data);
 
-          
+            // Code to fix the issue of multi selection of users
             let userList = getLocalUsers();
-            const userselected = document.querySelector("#users").value;
-            const newtripusers = [];
-            for (const userlistitem of userList) {
-              if (userlistitem.userid == userselected) {
-                newtripusers.push(userlistitem);
+            const userSelections = [];
+            for (const option of document.querySelector("#users").options) {
+              if (option.selected) {
+                userSelections.push(option.value);
               }
             }
+            const newtripusers = [];
+            for (const userlistitem of userList) {
+              for (const selecteduser of userSelections) {
+                if (userlistitem.userid == selecteduser) {
+                  newtripusers.push(userlistitem);
+                }
+              }
+            }
+
             let newTrip = {
               id: crypto.randomUUID(),
               tripName: document.querySelector("#tripNameForm").value.trim(),
@@ -159,7 +167,7 @@ document
               lat: data[0].lat,
               lon: data[0].lon,
             };
-        
+
             // console.log(newTrip);
             if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
               userTrips.push(newTrip);
@@ -170,14 +178,14 @@ document
               document.querySelector("#startDate").value = "";
               document.querySelector("#endDate").value = "";
             }
-   
+
           }
         });
     } else {
-       // to do handle invalid keys on the form
-       alert("Please fill in all required fields correctly.");
+      // to do handle invalid keys on the form
+      alert("Please fill in all required fields correctly.");
     }
-  
+
   });
 
 // Populate the users dropdown from local storage
@@ -197,7 +205,7 @@ const handleSelectUsers = () => {
 const handleTravelPlanSubmit = () => {
   // Handle form submission (you'll need to implement this)
   const submitButton = document.getElementById("#submitTravel");
-  submitButton.addEventListener("click", function () {});
+  submitButton.addEventListener("click", function () { });
   $("#data").removeClass("hidden");
   $("#no-data").addClass("hidden");
 };
@@ -953,13 +961,7 @@ async function initMap() {
       addMapMarkers({
         locationcoords: new google.maps.LatLng(trip.lat, trip.lon),
         markerimg: "./assets/images/travellocationpin.png",
-        // markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
-        markerInfo:
-          "Info ( Trip Name : " +
-          trip.tripName +
-          ", Trip Status : " +
-          trip.status +
-          " )",
+        markerInfo: "Info ( Trip Name : " + trip.tripName + ", Trip Status : " + trip.status + "& Trip Partners : " + trip.users.map(user => user.firstname) + " )",
       });
     }
 
