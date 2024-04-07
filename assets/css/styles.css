@@ -25,9 +25,11 @@ header {
   text-align: center;
   display: grid;
 }
+
 main {
   display: grid;
 }
+
 .add-button {
   border: none;
   padding: 15px 32px;
@@ -83,6 +85,7 @@ footer {
   padding: 20px;
   border: 1px solid #888;
   width: 50%;
+  border-radius: var(--border-radius);
 }
 
 #dialog-form.modal .modal-content {
@@ -91,6 +94,7 @@ footer {
   padding: 20px;
   border: 1px solid #888;
   width: 100%;
+  border-radius: var(--border-radius);
 }
 
 /* The travel modal button */
@@ -119,10 +123,12 @@ footer {
 .instructions {
   justify-self: center;
   margin: 0 5rem;
+
   li {
     text-align: left;
   }
 }
+
 /* -------------Dashboard Style-------------*/
 h4:first-child.cell {
   margin-top: calc(2rem - .1428571428571429em);
@@ -317,12 +323,25 @@ img.card-header-title {
 }
 
 .userformdialog .ui-dialog-titlebar {
-  /* background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-light-l), 1); */
   background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+
 }
 
 .userformdialog .ui-dialog-buttonpane {
   background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.userformdialog {
+  border-radius: var(--border-radius);
+}
+
+.userformdialog .ui-dialog-buttonset .ui-button {
+  border-radius: var(--border-radius);
+  font-weight: bold;
 }
 
 .userformbuttons {
@@ -338,5 +357,5 @@ img.card-header-title {
 #trip-details {
   border: solid;
   padding: 20px;
-  margin: 10px;
+  border-radius: var(--border-radius);
 }
