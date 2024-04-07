@@ -733,7 +733,7 @@ function updateErrorMsg(errMsg) {
 function checkLength(textInput, fieldName) {
   if (textInput.val().trim() == "") {
     textInput.addClass("ui-state-error");
-    updateErrorMsg(fieldName + " is required.");
+    updateErrorMsg(fieldName + " is required and must be valid");
     return false;
   } else {
     return true;
