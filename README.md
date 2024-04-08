@@ -37,9 +37,9 @@ Follow these instructions to create your project and deploy it to GitHub Pages:
 ## User Story 
 
 ```md
-AS A project team member with multiple tasks to organize
-I WANT a task board 
-SO THAT I can add individual project tasks, manage their state of progress and track overall project progress accordingly
+As a family that travels frequently.
+I want a dashboard that organises all our family trips, as a family and individually
+So that I can see and plan if there are any trip overlaps,check the countdown for the trips, check the weather at the destination, see distances and view local activities
 ```
 
 ## Usage
@@ -56,17 +56,20 @@ https://shwetakadam5.github.io/travel-dashboard/
 <TODO : Update the application pages>
 **Travel Dashboard Home Page :**
 
-![alt text](assets/images/<>.jpg)
+![alt text](assets/images/travel_dashboard_homepage.jpeg)
 
+**Travel Dashboard Home Page : with users, trips and map markers**
+
+![alt text](assets/images/travel_dashboard_withtravels&maps.jpeg)
 
 **Travel Dashboard Add User Modal :**
 
-![alt text](assets/images/<>.jpg)
+![alt text](assets/images/travel_dashboard_adduser.jpg)
 
 
 **Travel Dashboard Add Travel Plan Modal :**
 
-![alt text](assets/images/<>.jpg)
+![alt text](assets/images/travel_dashboard_addtrip.jpg)
 
 
 ## Acceptance Criteria 
