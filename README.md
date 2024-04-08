@@ -97,7 +97,6 @@ All tests and activities were recorded and tracked in the following location : (
 
 ## Credits
 
-_List your collaborators, if any, with links to their GitHub profiles:_ NA
 
 - https://github.com/shwetakadam5
 - https://github.com/gaylemcclure
@@ -105,16 +104,17 @@ _List your collaborators, if any, with links to their GitHub profiles:_ NA
 
 
 
-_If you used any third-party assets that require attribution, list the creators with links to their primary web presence in this section:_
+_Third-party assets:_
 
 - https://bulma.io/documentation/elements/title/
 - https://jqueryui.com/
 - https://day.js.org/
 - https://openweathermap.org/api
 - https://developers.google.com/maps/documentation/javascript
+- https://developers.amadeus.com/
 
 
-_If you followed tutorials, include links to those here as well :_ NA
+_Tutorials :_ 
 
 - https://developers.google.com/maps/documentation/javascript/adding-a-google-map
 
