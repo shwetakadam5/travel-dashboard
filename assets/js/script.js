@@ -129,6 +129,20 @@ const handleDateCheck = (start, end, users) => {
   }
 };
 
+//SK - Check for age of travellers. 
+const handleIsMinorCheck = (newtripusers) => {
+  console.log(newtripusers);
+  for (const user of newtripusers) {
+    console.log(user.isminor);
+    //is Minor true
+    if (!user.isminor) {
+      //If even one user is not a minor then proceed with travel plan
+      return true;
+    }
+  }
+  return false;
+};
+
 //Function for the submit button
 submit.addEventListener("click", async function () {
 
@@ -193,6 +207,8 @@ submit.addEventListener("click", async function () {
           const dateCheck = handleDateCheck(document.querySelector("#startDate").value, document.querySelector("#endDate").value, newtripusers);
           if (dateCheck.length > 0) {
             alert(`${dateCheck[0].name} has an existing trip to ${dateCheck[0].trip} during this time. Please select new dates.`);
+          } else if (!handleIsMinorCheck(newtripusers)) {
+            alert(`All the travel partners selected :[ ${newtripusers.map((newtripusers) => newtripusers.firstname)} ]are less than ${MINOR_AGE_LIMIT} yrs. Please select atleast 1 Adult traveller`);
           } else {
             //Creates the trip object
             let newTrip = {
