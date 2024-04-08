@@ -69,6 +69,14 @@ const btn = document.getElementById("add-travel");
 const submit = document.querySelector("#submitTravel");
 const travelModal = document.getElementById("travelModal");
 
+//GM - Clear the dropdown when closing - fix for duplicate entries
+const handleReset = (element) => {
+  let length = element.options.length - 1;
+  for (let i = length; i >= 0; i--) {
+    element.remove(i)
+  }
+}
+
 // Get the <span> element that closes the modal
 const closeBtnUser = document.getElementsByClassName("close")[0];
 const closeBtnTravel = document.querySelector(".Travelclose");
@@ -77,6 +85,8 @@ closeBtnTravel.addEventListener("click", function () {
   document.querySelector("#locationName").value = "";
   document.querySelector("#startDate").value = "";
   document.querySelector("#endDate").value = "";
+  //GM- duplicate fix
+  handleReset(document.querySelector("#users"))
   travelModal.style.display = "none";
 });
 const closeBtnTravelc = document.getElementById("close-btn");
@@ -85,7 +95,8 @@ closeBtnTravelc.addEventListener("click", function () {
   document.querySelector("#locationName").value = "";
   document.querySelector("#startDate").value = "";
   document.querySelector("#endDate").value = "";
-
+  //GM - duplicate fix
+  handleReset(document.querySelector("#users"))
   travelModal.style.display = "none";
 
 });
@@ -256,17 +267,27 @@ submit.addEventListener("click", async function () {
 
 // Populate the users dropdown from local storage
 // Example:
-const handleSelectUsers = () => {
-  const usersDropdown = document.getElementById("#users");
-  const savedUsers = JSON.parse(localStorage.getItem("users"));
+// const handleSelectUsers = () => {
+//   const usersDropdown = document.getElementById("#users");
+//   const savedUsers = JSON.parse(localStorage.getItem("users"));
+//   console.log(usersDropdown)
 
-  for (let i = 0; i < savedUsers.length; i++) {
-    const option = document.createElement("option");
-    option.value = savedUsers[i]; // Set the value (you can use department IDs if needed)
-    option.textContent = savedUsers[i]; // Set the display text
-    usersDropdown.appendChild(option); // Add the option to the select
-  }
-};
+//   // for (let i = 0; i < savedUsers.length; i++) {
+//   //   const option = document.createElement("option");
+//   //   option.value = savedUsers[i]; // Set the value (you can use department IDs if needed)
+//   //   option.textContent = savedUsers[i]; // Set the display text
+//   //   usersDropdown.appendChild(option); // Add the option to the select
+//   // }
+
+//   //GM - fixed the duplicate users error
+//   savedUsers.forEach((user) => {
+//     const option = document.createElement("option");
+//     option.value = user.username; // Set the value (you can use department IDs if needed)
+//     option.textContent = `${user.firstname} ${user.lastname}`; // Set the display text
+//     usersDropdown.appendChild(option); // Add the option to the select
+
+//   })
+// };
 
 //-------------Dashboard -----------------------------
 
@@ -321,9 +342,20 @@ const calculateDistance = async (homeCoordinates, destinationCoordinates) => {
 
     //Setting driving as first option
     if (response.data.route.car.status === "found") {
-      time = calculateTime(response.data.route.car.duration);
-      distance = response.data.route.car.distance;
-      mode = "Driving";
+      let calcHour = Math.floor(response.data.route.car.duration / 3600);
+      if (calcHour > 30) {
+        distance = response.data.route.greatCircle;
+        //Average speed of a commerical airplane is 900km/h
+      let rawTime = (distance / 900) * 60 * 60;
+      time = calculateTime(rawTime);
+      mode = "Flight";
+
+      } else {
+        time = calculateTime(response.data.route.car.duration);
+        distance = response.data.route.car.distance;
+        mode = "Driving";
+  
+      }
     }
     //setting flight as secondary response
     else if (response.data.route.car.status === "not found") {
