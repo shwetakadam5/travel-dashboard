@@ -508,13 +508,13 @@ const createDashboard = () => {
 
     const buttonHolder = $("<div></div>").addClass("button-holder is-flex is-flex-direction-row	").appendTo(header);
     //Create the accordion button
-    const downButton = $("<button></button>").addClass("card-header-icon has-text-white").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
-    $("<i></i>").addClass("fas fa-angle-down has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
+    const downButton = $("<button></button>").addClass("card-header-icon has-text-black").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
+    $("<i></i>").addClass("fas fa-angle-down has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
 
     //create the delete button
     const deleteButton = $("<button></button>").addClass("card-header-icon").attr("id", "delete-icon").attr("value", trip.id).appendTo(buttonHolder);
     const deleteSpan = $("<span></span>").appendTo(deleteButton);
-    $("<i></i>").addClass("fas fa-trash has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
+    $("<i></i>").addClass("fas fa-trash has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
 
     //Create the content
     const content = $("<div></div>").addClass("card-content hidden").attr("id", trip.id).appendTo(card);
