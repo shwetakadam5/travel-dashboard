@@ -164,10 +164,12 @@
 
     <!-- Start Created a modal with a form to add trips -->
     <div id="travelModal" class="modal">
-      <div class="modal-content has-background-primary-light">
-        <span class="Travelclose">&times;</span>
+      <div class="modal-content">
+        <div class="travel-modal-title">
+          <h4>Create new trip <span class="Travelclose">&times;</span></h4>
+        </div>
         <form>
-          <div id="trip-details">
+          <div id="trip-details" class="has-background-primary-light">
             <div class="field">
               <label class="label has-text-black">Trip Name</label>
               <div class="control">
@@ -214,8 +216,12 @@
                 </div>
               </div>
             </div>
-            <button class="button is-primary" type="button" id="submitTravel">Submit</button>
-            <button class="button is-primary" type="button" id="close-btn">Close</button>
+
+          </div>
+          <div class="travel-modal-buttonpane">
+            <button class="button is-white has-text-weight-bold" type="button" id="submitTravel">Submit</button>
+            <button class="button is-white has-text-weight-bold" type="button" id="close-btn">Cancel</button>
+          </div>
         </form>
       </div>
     </div>
