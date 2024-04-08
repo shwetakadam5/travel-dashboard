@@ -508,13 +508,13 @@ const createDashboard = () => {
 
     const buttonHolder = $("<div></div>").addClass("button-holder is-flex is-flex-direction-row	").appendTo(header);
     //Create the accordion button
-    const downButton = $("<button></button>").addClass("card-header-icon").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
-    $("<i></i>").addClass("fas fa-angle-down has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
+    const downButton = $("<button></button>").addClass("card-header-icon has-text-white").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
+    $("<i></i>").addClass("fas fa-angle-down has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
 
     //create the delete button
     const deleteButton = $("<button></button>").addClass("card-header-icon").attr("id", "delete-icon").attr("value", trip.id).appendTo(buttonHolder);
     const deleteSpan = $("<span></span>").appendTo(deleteButton);
-    $("<i></i>").addClass("fas fa-trash has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
+    $("<i></i>").addClass("fas fa-trash has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
 
     //Create the content
     const content = $("<div></div>").addClass("card-content hidden").attr("id", trip.id).appendTo(card);
@@ -522,14 +522,14 @@ const createDashboard = () => {
 
     //The User left side
     const userInner = $("<div></div>").addClass("content level-left has-background-primary-light p-5").appendTo(contentInner);
-    $("<h4></h4>").addClass("mt-1 is-size-3").text("Travel Partners").appendTo(userInner);
+    $("<h4></h4>").addClass("mt-1 is-size-3 has-text-black").text("Travel Partners").appendTo(userInner);
     //Header for each user section
     const travelHeader = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
     const travelGrid = $("<div></div>").addClass("grid travel-title").appendTo(travelHeader);
-    $("<h5></h5>").addClass("cell mt-1").text("User").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Home Location").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Travel Mode").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Approx Duration").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("User").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Home Location").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Travel Mode").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Approx Duration").appendTo(travelGrid);
     const travelData = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
 
     //Map through each user to create a record to show user, home location and distance
@@ -550,10 +550,10 @@ const createDashboard = () => {
         const tripName = trip.tripName.toLowerCase().replace(/\s/g, "");
         const tripId = `${localUser[0].firstname}-${tripName}`;
         const userDiv = $("<div></div>").addClass("grid travel-data").appendTo(travelData);
-        $("<p></p>").addClass("cell name").text(localUser[0].firstname).appendTo(userDiv);
-        $("<p></p>").addClass("cell city").text(localUser[0].usercity).appendTo(userDiv);
-        $("<p></p>").addClass("cell mode").text(travel.mode).appendTo(userDiv);
-        $("<p></p>").addClass("cell duration").attr("id", "duration").text(travel.time).appendTo(userDiv);
+        $("<p></p>").addClass("cell name has-text-black").text(localUser[0].firstname).appendTo(userDiv);
+        $("<p></p>").addClass("cell city has-text-black").text(localUser[0].usercity).appendTo(userDiv);
+        $("<p></p>").addClass("cell mode has-text-black").text(travel.mode).appendTo(userDiv);
+        $("<p></p>").addClass("cell duration has-text-black").attr("id", "duration").text(travel.time).appendTo(userDiv);
       });
       //The activities right side
       const activityInner = $("<div></div>").addClass("content level-right has-background-primary-dark p-5").appendTo(contentInner);
