@@ -48,7 +48,7 @@ const getTrips = () => {
 };
 
 //Function to save the trips to the local storage.
-const addTrip = () => {};
+const addTrip = () => { };
 
 //Find if any data in local storage
 const data = localStorage.getItem("trips");
@@ -87,9 +87,7 @@ closeBtnTravelc.addEventListener("click", function () {
   document.querySelector("#endDate").value = "";
 
   travelModal.style.display = "none";
-  // document.querySelector('.close-btn').addEventListener('click', function() {
-  //   document.getElementById('travelModal').style.display = 'none';
-  // });
+
 });
 
 // Event listener for button click
@@ -133,14 +131,14 @@ const handleDateCheck = (start, end, users) => {
 
 //Function for the submit button
 submit.addEventListener("click", async function () {
-  // let user = document.querySelector("#users").value
+
   let userTrips = getTrips();
   let valid = true;
   valid = valid && checkLength($("#tripNameForm"), "Trip Name");
   valid = valid && checkLength($("#locationName"), "Destination City");
   valid = valid && checkLength($("#startDate"), "Trip Start Date");
   valid = valid && checkLength($("#endDate"), "Trip End Date");
-  console.log(valid);
+
 
   if (valid) {
     let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
@@ -166,13 +164,13 @@ submit.addEventListener("click", async function () {
       })
       .then(function (data) {
         if (!Object.keys(data).length) {
-          console.log("No data found");
+
           alert(`Error Msg: No data found :Invalid city. Redirecting to error page.`);
           location.href = redirectUrl;
         } else {
           console.log("Data received:", data);
 
-          // Code to fix the issue of multi selection of users
+          // SK - Code to fix the issue of multi selection of users
           let userList = getLocalUsers();
           const userSelections = [];
           const newtripusers = [];
@@ -226,6 +224,7 @@ submit.addEventListener("click", async function () {
               $("#no-data").addClass("hidden");
               $("#show-map").removeClass("hidden");
 
+              initMap();// Invoked to create trip location markers on the map.
               //Call the function to create the dashboard cards
               dashboardEl.empty();
               createDashboard();
@@ -500,7 +499,7 @@ const createDashboard = () => {
     } else {
       $("<i></i>").addClass("fa-solid fa-plane-departure").appendTo(status);
     }
-    
+
     $("<p></p>").addClass("cell card-header-title is-flex").text(trip.tripName).appendTo(status);
     $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(leftBlock);
     $("<p></p>").addClass("cell card-header-title").text(countdownTime).appendTo(rightBlock);
@@ -509,13 +508,13 @@ const createDashboard = () => {
 
     const buttonHolder = $("<div></div>").addClass("button-holder is-flex is-flex-direction-row	").appendTo(header);
     //Create the accordion button
-    const downButton = $("<button></button>").addClass("card-header-icon").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
-    $("<i></i>").addClass("fas fa-angle-down has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
+    const downButton = $("<button></button>").addClass("card-header-icon has-text-white").attr("id", "open-icon").attr("value", trip.id).appendTo(buttonHolder);
+    $("<i></i>").addClass("fas fa-angle-down has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(downButton);
 
     //create the delete button
     const deleteButton = $("<button></button>").addClass("card-header-icon").attr("id", "delete-icon").attr("value", trip.id).appendTo(buttonHolder);
     const deleteSpan = $("<span></span>").appendTo(deleteButton);
-    $("<i></i>").addClass("fas fa-trash has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
+    $("<i></i>").addClass("fas fa-trash has-text-white").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
 
     //Create the content
     const content = $("<div></div>").addClass("card-content hidden").attr("id", trip.id).appendTo(card);
@@ -523,14 +522,14 @@ const createDashboard = () => {
 
     //The User left side
     const userInner = $("<div></div>").addClass("content level-left has-background-primary-light p-5").appendTo(contentInner);
-    $("<h4></h4>").addClass("mt-1 is-size-3").text("Travel Partners").appendTo(userInner);
+    $("<h4></h4>").addClass("mt-1 is-size-3 has-text-black").text("Travel Partners").appendTo(userInner);
     //Header for each user section
     const travelHeader = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
     const travelGrid = $("<div></div>").addClass("grid travel-title").appendTo(travelHeader);
-    $("<h5></h5>").addClass("cell mt-1").text("User").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Home Location").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Travel Mode").appendTo(travelGrid);
-    $("<h5></h5>").addClass("cell mt-1").text("Approx Duration").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("User").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Home Location").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Travel Mode").appendTo(travelGrid);
+    $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Approx Duration").appendTo(travelGrid);
     const travelData = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
 
     //Map through each user to create a record to show user, home location and distance
@@ -551,10 +550,10 @@ const createDashboard = () => {
         const tripName = trip.tripName.toLowerCase().replace(/\s/g, "");
         const tripId = `${localUser[0].firstname}-${tripName}`;
         const userDiv = $("<div></div>").addClass("grid travel-data").appendTo(travelData);
-        $("<p></p>").addClass("cell name").text(localUser[0].firstname).appendTo(userDiv);
-        $("<p></p>").addClass("cell city").text(localUser[0].usercity).appendTo(userDiv);
-        $("<p></p>").addClass("cell mode").text(travel.mode).appendTo(userDiv);
-        $("<p></p>").addClass("cell duration").attr("id", "duration").text(travel.time).appendTo(userDiv);
+        $("<p></p>").addClass("cell name has-text-black").text(localUser[0].firstname).appendTo(userDiv);
+        $("<p></p>").addClass("cell city has-text-black").text(localUser[0].usercity).appendTo(userDiv);
+        $("<p></p>").addClass("cell mode has-text-black").text(travel.mode).appendTo(userDiv);
+        $("<p></p>").addClass("cell duration has-text-black").attr("id", "duration").text(travel.time).appendTo(userDiv);
       });
       //The activities right side
       const activityInner = $("<div></div>").addClass("content level-right has-background-primary-dark p-5").appendTo(contentInner);
@@ -610,7 +609,7 @@ $("#delete-icon").on("click", function (e) {
   console.log(e);
 });
 
-//Add User Code Starts - Shweta
+//Add User Code Starts - SK
 
 const API_KEY_GEO = "6afdca3269d40e485ee98de1af3ed1db";
 const API_KEY_MAPS = "AIzaSyB9ViKmP3YhPiC9Mqz6jdr9Rio9MrtItaE";
@@ -627,7 +626,7 @@ const userErrMsgEl = $(".validateTips");
 const userSuccessMsgEl = $(".successMsg");
 const MINOR_AGE_LIMIT = 12;
 
-//Function to update the error message and highlight the fields
+//SK - Function to update the error message and highlight the fields
 function updateErrorMsg(errMsg) {
   userErrMsgEl.text(errMsg).addClass("ui-state-error has-text-danger");
   setTimeout(function () {
@@ -635,7 +634,7 @@ function updateErrorMsg(errMsg) {
   }, 500);
 }
 
-//Function to validate the input fields of the user
+//SK - Function to validate the input fields of the user
 function checkLength(textInput, fieldName) {
   if (textInput.val().trim() == "") {
     textInput.addClass("ui-state-error");
@@ -646,7 +645,7 @@ function checkLength(textInput, fieldName) {
   }
 }
 
-//Function to add a user. This function validates the input fields and stores the validated details in local storage
+//SK - Function to add a user. This function validates the input fields and stores the validated details in local storage
 // It also updates the coordinates for the city by invoking the weather api and provides a user age check parameter.
 
 function addUser() {
@@ -710,7 +709,7 @@ function addUser() {
         })
         .then(function (data) {
           if (!Object.keys(data).length) {
-            console.log("No data found");
+
             alert(`Error Msg: No data found :Invalid city. Redirecting to error page.`);
             location.href = redirectUrl;
           } else {
@@ -734,7 +733,7 @@ function addUser() {
   return valid;
 }
 
-// Event listerner to open the create user modal dialog
+//SK - Event listerner to open the create user modal dialog
 $("#add-user")
   .button()
   .on("click", function () {
@@ -753,13 +752,13 @@ let dialog = $("#dialog-form").dialog({
   buttons: {
     Submit: addUser,
     Cancel: function () {
-      console.log("In Cancel function");
+
       dialog.dialog("close");
     },
   },
   close: function () {
     //add code to reset the form fields
-    console.log("In close function");
+
     userform[0].reset();
     allFields.removeClass("ui-state-error");
     userErrMsgEl.removeClass("has-text-danger");
@@ -769,17 +768,17 @@ let dialog = $("#dialog-form").dialog({
   },
 });
 
-// Event to identify if the submit of user form was clicked.
+// SK - Event to identify if the submit of user form was clicked.
 let userform = dialog.find("form").on("submit", function (event) {
   event.preventDefault();
   addUser();
 });
 
-// When the page loads make the  date field a date picker and also initialize the map
+//SK - When the page loads make the  date field a date picker and also initialize the map
 $(document).ready(function () {
   initMap();
-  // addTrip();
-  //datepicker initialization (jQueryUI)
+
+  //datepicker initialization for user form(jQueryUI)
   $("#user-dob").datepicker({
     changeMonth: true,
     changeYear: true,
@@ -787,6 +786,7 @@ $(document).ready(function () {
     maxDate: "0",
   });
 
+  //datepicker initialization for travel form
   $("#startDate").datepicker({
     changeMonth: true,
     changeYear: true,
@@ -802,12 +802,12 @@ $(document).ready(function () {
   });
 });
 
-// Logic to display the map and map markers.
+// SK - Logic to display the map and map markers.
 
 let map;
 // initMap is now async
 async function initMap() {
-  // console.log("INIT MAP INVOKED");
+
 
   let addedUsers = getLocalUsers(); //retrieve the users from localstorage
 
@@ -880,7 +880,7 @@ async function initMap() {
   }
 }
 
-// Maps API invocation
+// SK -Maps API invocation
 ((g) => {
   var h,
     a,
