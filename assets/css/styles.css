@@ -28,7 +28,7 @@ header {
 
 main {
   display: grid;
-  background-color:white;
+  background-color: white;
 }
 
 .add-button {
@@ -83,7 +83,7 @@ footer {
   background-color: #fefefe;
   /* Changed the travel model to flex instead of block so margin isn't required. Not sure how affects users modal */
   /* margin: 25% auto; */
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #888;
   width: 50%;
   border-radius: var(--border-radius);
@@ -364,9 +364,9 @@ img.card-header-title {
 
   .card-content {
     padding: 0;
-    background-color:white;
-    box-shadow: 0 0.5em 1em -0.125em hsla( 221deg , 14% , 4% ,0.1),0 0px 0 1px hsla( 221deg , 14% , 4% ,0.02);
-    margin-top:0.5rem;
+    background-color: white;
+    box-shadow: 0 0.5em 1em -0.125em hsla(221deg, 14%, 4%, 0.1), 0 0px 0 1px hsla(221deg, 14%, 4%, 0.02);
+    margin-top: 0.5rem;
   }
 
   #no-data {
@@ -434,7 +434,41 @@ img.card-header-title {
 }
 
 #trip-details {
-  border: solid;
+  border: 1px solid #888;
   padding: 20px;
   border-radius: var(--border-radius);
+}
+
+.Travelclose {
+  float: inline-end;
+  margin-top: -8px;
+  margin-left: -8px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  padding-top: 5px;
+}
+
+.travel-modal-title {
+  background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  padding: 10px;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+.travel-modal-buttonpane {
+
+  background-color: hsla(var(--bulma-primary-h), var(--bulma-primary-s), var(--bulma-primary-on-scheme-l), 1);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  padding: 10px;
+  margin-top: 10px;
+  text-align: right;
+}
+
+#submitTravel,
+#close-btn {
+  color: #333333;
 }
