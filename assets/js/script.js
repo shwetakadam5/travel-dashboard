@@ -342,9 +342,20 @@ const calculateDistance = async (homeCoordinates, destinationCoordinates) => {
 
     //Setting driving as first option
     if (response.data.route.car.status === "found") {
-      time = calculateTime(response.data.route.car.duration);
-      distance = response.data.route.car.distance;
-      mode = "Driving";
+      let calcHour = Math.floor(response.data.route.car.duration / 3600);
+      if (calcHour > 30) {
+        distance = response.data.route.greatCircle;
+        //Average speed of a commerical airplane is 900km/h
+      let rawTime = (distance / 900) * 60 * 60;
+      time = calculateTime(rawTime);
+      mode = "Flight";
+
+      } else {
+        time = calculateTime(response.data.route.car.duration);
+        distance = response.data.route.car.distance;
+        mode = "Driving";
+  
+      }
     }
     //setting flight as secondary response
     else if (response.data.route.car.status === "not found") {
