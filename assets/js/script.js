@@ -485,9 +485,9 @@ const createDashboard = () => {
       countdownTime = "Completed";
     }
     //Create the card
-    const card = $("<div></div>").addClass("card fixed-grid has-5-cols").attr("id", "travel-card").appendTo(dashboardEl);
+    const card = $("<div></div>").addClass("card fixed-grid has-5-cols has-background-white").attr("id", "travel-card").appendTo(dashboardEl);
     //Create the header
-    const header = $("<header></header>").addClass("card-header grid").appendTo(card);
+    const header = $("<header></header>").addClass("card-header grid has-background-white").appendTo(card);
     const leftBlock = $('<div></div>').addClass("left-block cell is-col-span-2 is-flex").appendTo(header)
     const rightBlock = $('<div></div>').addClass("right-block cell is-col-span-2 is-flex").appendTo(header);
     const status = $("<div></div>").addClass("status").appendTo(leftBlock);
@@ -525,7 +525,7 @@ const createDashboard = () => {
     $("<h4></h4>").addClass("mt-1 is-size-3 has-text-black").text("Travel Partners").appendTo(userInner);
     //Header for each user section
     const travelHeader = $("<div></div>").addClass("fixed-grid has-4-cols").appendTo(userInner);
-    const travelGrid = $("<div></div>").addClass("grid travel-title").appendTo(travelHeader);
+    const travelGrid = $("<div></div>").addClass("grid travel-title has-background-primary-light").appendTo(travelHeader);
     $("<h5></h5>").addClass("cell mt-1 has-text-black").text("User").appendTo(travelGrid);
     $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Home Location").appendTo(travelGrid);
     $("<h5></h5>").addClass("cell mt-1 has-text-black").text("Travel Mode").appendTo(travelGrid);
