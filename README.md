@@ -74,26 +74,26 @@ https://shwetakadam5.github.io/travel-dashboard/
 ```md
 GIVEN a travel dashboard to manage the travel plans
 WHEN I open the travel dash board
-THEN the list of travel plans  is displayed in columns representing the <TODO : Update the dashboard details> and a visual map is displayed.
-WHEN I view the task board for the travel
-THEN each travel plan will have <TODO : list the details>
+THEN the Welcome message with options to add users, add trips and show map is displayed along with a google map.
+When I open the travel dash board after users and trips are created
+THEN the dashboard with all the trips is displayed.The google map is now updated with user home location markers and travel destination markers.
+WHEN I view the task board for each travel/trip
+THEN each travel/trip plan will have columns representing the Trip, Location, Time, Weather, down/expand icon and delete icon. Further details of the Travel partners are displayed on clicking of the down/expand icon along with activity ideas. 
 WHEN I click on the button to add a new user
 THEN I can enter the First Name, Last Name, Date of birth, Address, City, Country and Zip Code into a modal dialog
 WHEN I click the submit button for that user
-THEN the properties for that user are validated and saved in localStorage.A map marker is created on the map.
+THEN the properties for that user are validated and saved in localStorage.A map marker for the user is created on the map.
 WHEN I click the cancel or X button on the create new user modal, the modal dialog is closed and the dashboard is displayed.
 WHEN I click on the button to add travel
-THEN I can enter the <TODO : list the fields> into a modal dialog
-WHEN I click the <> button for that travel
-THEN the<TODO : Update the behaviour>
-WHEN I click the cancel or X button on the create travel plan modal, <TODO: Update the behaviour>
-WHEN I refresh the page
-THEN the saved tasks persist
+THEN I can enter the Trip Name, Destination City, Travel partners, Trip Start Date and Trip End Date into a modal dialog
+WHEN I click the submit button for that trip
+THEN the properties for that trip are validated and saved in localStorage.A map marker for the trip is created on the map.
+WHEN I click the cancel or X button on the create travel plan modal, the modal dialog is closed and the dashboard is displayed.
 ```
 
 ## Tests
 
-<TODO: Check to update>
+All tests and activities were recorded and tracked in the following location : (https://trello.com/b/3LaamllG/travel-dashboard)
 
 ## Credits
 
