@@ -500,9 +500,9 @@ const createDashboard = () => {
       $("<i></i>").addClass("fa-solid fa-plane-departure").appendTo(status);
     }
 
-    $("<p></p>").addClass("cell card-header-title is-flex").text(trip.tripName).appendTo(status);
-    $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(leftBlock);
-    $("<p></p>").addClass("cell card-header-title").text(countdownTime).appendTo(rightBlock);
+    $("<p></p>").addClass("cell card-header-title is-flex has-text-black").text(trip.tripName).appendTo(status);
+    $("<p></p>").addClass("cell card-header-title has-text-black").text(trip.location).appendTo(leftBlock);
+    $("<p></p>").addClass("cell card-header-title has-text-black").text(countdownTime).appendTo(rightBlock);
     const imgContainer = $('<div></div>').addClass("img-container").appendTo(rightBlock);
     $("<img />").addClass("cell card-header-title").attr("src", `https://openweathermap.org/img/w/${trip.icon}.png`).appendTo(imgContainer);
 
