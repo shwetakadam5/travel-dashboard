@@ -28,6 +28,7 @@ header {
 
 main {
   display: grid;
+  background-color:white;
 }
 
 .add-button {
@@ -363,6 +364,9 @@ img.card-header-title {
 
   .card-content {
     padding: 0;
+    background-color:white;
+    box-shadow: 0 0.5em 1em -0.125em hsla( 221deg , 14% , 4% ,0.1),0 0px 0 1px hsla( 221deg , 14% , 4% ,0.02);
+    margin-top:0.5rem;
   }
 
   #no-data {
