@@ -170,7 +170,7 @@ submit.addEventListener("click", async function () {
         } else {
           console.log("Data received:", data);
 
-          // Code to fix the issue of multi selection of users
+          // SK - Code to fix the issue of multi selection of users
           let userList = getLocalUsers();
           const userSelections = [];
           const newtripusers = [];
@@ -224,6 +224,7 @@ submit.addEventListener("click", async function () {
               $("#no-data").addClass("hidden");
               $("#show-map").removeClass("hidden");
 
+              initMap();// Invoked to create trip location markers on the map.
               //Call the function to create the dashboard cards
               dashboardEl.empty();
               createDashboard();
