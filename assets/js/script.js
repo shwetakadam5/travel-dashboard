@@ -3,6 +3,7 @@ const startDateEl = $("#start-date");
 const endDateEl = $("#end-date");
 const welcomeEl = $("#no-data");
 const dashboardEl = $("#all-trips");
+const dashboardElMobile = $("#all-trips-mobile");
 
 //Load dayjs relative time & isBetween plugin
 dayjs.extend(window.dayjs_plugin_relativeTime);
@@ -97,7 +98,6 @@ btn.addEventListener("click", function () {
   travelModal.style.display = "flex";
   let users = getLocalUsers();
   for (let index = 0; index < users.length; index++) {
-
     let option = document.createElement("option");
     let userName = users[index].firstname + " " + users[index].lastname;
     option.textContent = userName;
@@ -106,11 +106,9 @@ btn.addEventListener("click", function () {
   }
 });
 
-//GM - Check for overlapping dates
-
-//Check if any of the trips are happening now, or passed
+//GM - Check for overlapping dates with existing trips
 const handleDateCheck = (start, end, users) => {
-  const trips = getTrips()
+  const trips = getTrips();
   let duplicateArr = [];
   if (trips) {
     trips.map((trip) => {
@@ -118,21 +116,20 @@ const handleDateCheck = (start, end, users) => {
       const between = dayjs(start).isBetween(trip.start, dayjs(trip.end));
       if (between) {
         users.map((user) => {
-         let duplicateUser = trip.users.filter(tripUser => tripUser.userid === user.userid);
-          duplicateUser.map((dup => {
+          let duplicateUser = trip.users.filter((tripUser) => tripUser.userid === user.userid);
+          duplicateUser.map((dup) => {
             duplicateArr.push({
               name: `${dup.firstname} ${dup.lastname}`,
               trip: trip.location,
-            })
-          }))
-        })
+            });
+          });
+        });
       }
     });
-    console.log(duplicateArr)
-  return duplicateArr;
+
+    return duplicateArr;
   }
 };
-
 
 //Function for the submit button
 submit.addEventListener("click", async function () {
@@ -144,7 +141,6 @@ submit.addEventListener("click", async function () {
   valid = valid && checkLength($("#startDate"), "Trip Start Date");
   valid = valid && checkLength($("#endDate"), "Trip End Date");
   console.log(valid);
-
 
   if (valid) {
     let cityName = document.querySelector("#locationName").value.trim().toLowerCase();
@@ -180,59 +176,61 @@ submit.addEventListener("click", async function () {
           let userList = getLocalUsers();
           const userSelections = [];
           const newtripusers = [];
+          //Creates array of selected users
           for (const option of document.querySelector("#users").options) {
             if (option.selected) {
               userSelections.push(option.value);
             }
           }
-            for (const userlistitem of userList) {
-              for (const selecteduser of userSelections) {
-                if (userlistitem.userid == selecteduser) {
-                  newtripusers.push(userlistitem);
-                }
+          //gets array of users that match the selected users
+          for (const userlistitem of userList) {
+            for (const selecteduser of userSelections) {
+              if (userlistitem.userid == selecteduser) {
+                newtripusers.push(userlistitem);
               }
             }
-         
-          //Calls date function to check for overlapping trips
-          const dateCheck = handleDateCheck(document.querySelector("#startDate").value, document.querySelector("#endDate").value, newtripusers)
-          if (dateCheck.length > 0) {
-            alert(`${dateCheck[0].name} has an existing trip to ${dateCheck[0].trip} during this time. Please select new dates.`)
-          } else {
-
- 
-
-          let newTrip = {
-            id: crypto.randomUUID(),
-            tripName: document.querySelector("#tripNameForm").value.trim(),
-            location: document.querySelector("#locationName").value.trim(),
-            users: newtripusers,
-            start: document.querySelector("#startDate").value,
-            end: document.querySelector("#endDate").value,
-            status: "upcoming",
-            lat: data[0].city.coord.lat,
-            lon: data[0].city.coord.lon,
-            icon: data[0].list[0].weather[0].icon
-          };
-
-          if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
-            //GM - adding fix to prevent duplicate trips
-            let tripArr = userTrips;
-            tripArr.push(newTrip);
-            localStorage.setItem("trips", JSON.stringify(tripArr));
-            document.querySelector("#tripNameForm").value = "";
-            document.querySelector("#locationName").value = "";
-            document.querySelector("#startDate").value = "";
-            document.querySelector("#endDate").value = "";
-            travelModal.style.display = "none";
-            $("#data").removeClass("hidden");
-            $("#no-data").addClass("hidden");
-            $("#show-map").removeClass("hidden");
-            
-            //Call the function to create the dashboard cards
-            dashboardEl.empty();
-            createDashboard();
           }
-        }
+
+          //GM - Calls date function to check for overlapping trips
+          const dateCheck = handleDateCheck(document.querySelector("#startDate").value, document.querySelector("#endDate").value, newtripusers);
+          if (dateCheck.length > 0) {
+            alert(`${dateCheck[0].name} has an existing trip to ${dateCheck[0].trip} during this time. Please select new dates.`);
+          } else {
+            //Creates the trip object
+            let newTrip = {
+              id: crypto.randomUUID(),
+              tripName: document.querySelector("#tripNameForm").value.trim(),
+              location: document.querySelector("#locationName").value.trim(),
+              users: newtripusers,
+              start: document.querySelector("#startDate").value,
+              end: document.querySelector("#endDate").value,
+              status: "upcoming",
+              lat: data[0].city.coord.lat,
+              lon: data[0].city.coord.lon,
+              icon: data[0].list[0].weather[0].icon,
+            };
+
+            if (!userTrips.some((trip) => trip.tripName === newTrip.tripName)) {
+              //GM - adding fix to prevent duplicate trips
+              let tripArr = userTrips;
+              tripArr.push(newTrip);
+              localStorage.setItem("trips", JSON.stringify(tripArr));
+              document.querySelector("#tripNameForm").value = "";
+              document.querySelector("#locationName").value = "";
+              document.querySelector("#startDate").value = "";
+              document.querySelector("#endDate").value = "";
+              travelModal.style.display = "none";
+
+              //GM - hides the first page if trip data exists.
+              $("#data").removeClass("hidden");
+              $("#no-data").addClass("hidden");
+              $("#show-map").removeClass("hidden");
+
+              //Call the function to create the dashboard cards
+              dashboardEl.empty();
+              createDashboard();
+            }
+          }
         }
       });
   } else {
@@ -255,10 +253,9 @@ const handleSelectUsers = () => {
   }
 };
 
-
 //-------------Dashboard -----------------------------
 
-//Calculate time from now until trip start date
+//GM - Calculate time from now until trip start date
 const calculateCountdown = (start) => {
   const today = dayjs();
   const startDate = dayjs(start);
@@ -276,7 +273,7 @@ const calculateCountdown = (start) => {
   return countdown;
 };
 
-//Calculate the travel time from
+//GM - Calculate the travel time from
 const calculateTime = (seconds) => {
   const time = Number(seconds);
   const calcHour = Math.floor(time / 3600);
@@ -287,7 +284,7 @@ const calculateTime = (seconds) => {
   return hour + minutes;
 };
 
-//Calculate the distance with Distance.to API
+//GM - Calculate the distance with Distance.to API
 const calculateDistance = async (homeCoordinates, destinationCoordinates) => {
   const options = {
     method: "POST",
@@ -333,7 +330,7 @@ const calculateDistance = async (homeCoordinates, destinationCoordinates) => {
   }
 };
 
-//Get the coordinates of the location for the distance api
+//GM - Get the coordinates of the location for the distance api
 const getCoordinates = async (city) => {
   let cityName = city.toLowerCase();
   const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=${API_KEY}`);
@@ -342,7 +339,7 @@ const getCoordinates = async (city) => {
   return dataString;
 };
 
-//Get list of local activities - Amadeus API
+//GM - Get list of local activities - Amadeus API
 const getActivities = async (lat, lon) => {
   const urlencoded = new URLSearchParams();
   urlencoded.append("client_id", AMADEUS_KEY);
@@ -375,7 +372,7 @@ const getActivities = async (lat, lon) => {
   return activity;
 };
 
-//Check if any of the trips are happening now, or passed
+//GM - Check if any of the trips are happening now, or passed
 const handlePastTrips = () => {
   const trips = JSON.parse(localStorage.getItem("trips"));
   if (trips) {
@@ -404,7 +401,7 @@ const handlePastTrips = () => {
   return trips;
 };
 
-//Sort the trips by specified field
+//GM - Sort the trips by specified field
 const handleSortTrip = (trips) => {
   const sort = JSON.parse(localStorage.getItem("sort-travel-data"));
   let uniqueArr = [];
@@ -460,7 +457,6 @@ const handleSortTrip = (trips) => {
         return 1;
       } else {
         return 0;
-
       }
     });
   }
@@ -468,7 +464,7 @@ const handleSortTrip = (trips) => {
   return uniqueArr;
 };
 
-//Dashboard - Function is called on page load, and creating a new trip to dynamically create the dashboard from local storage data.
+//GM - Dashboard - Function is called on page load, and creating a new trip to dynamically create the dashboard from local storage data.
 const createDashboard = () => {
   //Get the saved local data of trips and users
   const savedTrips = handlePastTrips();
@@ -493,7 +489,9 @@ const createDashboard = () => {
     const card = $("<div></div>").addClass("card fixed-grid has-5-cols").attr("id", "travel-card").appendTo(dashboardEl);
     //Create the header
     const header = $("<header></header>").addClass("card-header grid").appendTo(card);
-    const status = $("<div></div>").addClass("status").appendTo(header);
+    const leftBlock = $('<div></div>').addClass("left-block cell is-col-span-2 is-flex").appendTo(header)
+    const rightBlock = $('<div></div>').addClass("right-block cell is-col-span-2 is-flex").appendTo(header);
+    const status = $("<div></div>").addClass("status").appendTo(leftBlock);
     //Assigns correct icon to the card
     if (trip.status === "upcoming") {
       $("<i></i>").addClass("fa-solid fa-suitcase-rolling has-text-primary").appendTo(status);
@@ -502,10 +500,12 @@ const createDashboard = () => {
     } else {
       $("<i></i>").addClass("fa-solid fa-plane-departure").appendTo(status);
     }
+    
     $("<p></p>").addClass("cell card-header-title is-flex").text(trip.tripName).appendTo(status);
-    $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(header);
-    $("<p></p>").addClass("cell card-header-title").text(countdownTime).appendTo(header);
-    $("<img />").addClass("cell card-header-title").attr("src", `https://openweathermap.org/img/w/${trip.icon}.png`).appendTo(header);
+    $("<p></p>").addClass("cell card-header-title").text(trip.location).appendTo(leftBlock);
+    $("<p></p>").addClass("cell card-header-title").text(countdownTime).appendTo(rightBlock);
+    const imgContainer = $('<div></div>').addClass("img-container").appendTo(rightBlock);
+    $("<img />").addClass("cell card-header-title").attr("src", `https://openweathermap.org/img/w/${trip.icon}.png`).appendTo(imgContainer);
 
     const buttonHolder = $("<div></div>").addClass("button-holder is-flex is-flex-direction-row	").appendTo(header);
     //Create the accordion button
@@ -514,7 +514,7 @@ const createDashboard = () => {
 
     //create the delete button
     const deleteButton = $("<button></button>").addClass("card-header-icon").attr("id", "delete-icon").attr("value", trip.id).appendTo(buttonHolder);
-    const deleteSpan = $('<span></span>').appendTo(deleteButton)
+    const deleteSpan = $("<span></span>").appendTo(deleteButton);
     $("<i></i>").addClass("fas fa-trash has-text-black").attr("id", "down-icon").attr("value", trip.id).appendTo(deleteSpan);
 
     //Create the content
@@ -570,12 +570,11 @@ const createDashboard = () => {
 
 //----------Event Handlers---------------
 
-//Add in travel button handler
+//GM - Add in travel button handler
 createDashboard();
 
-//Event handler for opening the accordion. Checks if main button is clicked, or just the icon
+//GM - Event handler for opening the accordion. Checks if main button is clicked, or just the icon
 $("#data").on("click", function (e) {
-
   if (e.target.id === "open-icon") {
     const cardData = $(`#${e.target.value}`);
     cardData.toggleClass("hidden");
@@ -586,20 +585,19 @@ $("#data").on("click", function (e) {
     //Delete travel cards
   } else if (e.target.id === "delete-icon") {
     let trips = getTrips();
-    let tripsArr = trips
+    let tripsArr = trips;
     trips.map((trip) => {
       if (e.target.value === trip.id) {
-        let removeItem = tripsArr.filter(trip => trip.id != e.target.value);
+        let removeItem = tripsArr.filter((trip) => trip.id != e.target.value);
         localStorage.setItem("trips", JSON.stringify(removeItem));
         dashboardEl.empty();
         createDashboard();
-
       }
-    })
+    });
   }
 });
 
-//Event handlers for sorting data
+//GM - Event handlers for sorting data
 $(".sort-button").on("click", function (e) {
   const previous = JSON.parse(localStorage.getItem("sort-travel-data"));
   localStorage.setItem("sort-travel-data", JSON.stringify(e.currentTarget.id));
@@ -608,9 +606,9 @@ $(".sort-button").on("click", function (e) {
   createDashboard();
 });
 
-$('#delete-icon').on("click", function(e) {
-  console.log(e)
-})
+$("#delete-icon").on("click", function (e) {
+  console.log(e);
+});
 
 //Add User Code Starts - Shweta
 

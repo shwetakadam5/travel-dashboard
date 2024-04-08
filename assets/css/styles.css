@@ -163,7 +163,19 @@ h4:first-child.cell {
 p.card-header-title,
 img.card-header-title {
   margin: 0;
-  justify-self: center;
+  justify-content: center;
+}
+p.card-header-title {
+  width: 50%;
+}
+img.card-header-title {
+  height: 80px;
+  max-width: 80px;
+}
+.img-container {
+  width: 50%;
+  display: flex;
+  justify-content: center;
 }
 
 .card-header.fixed-grid.has-5-cols .grid {
@@ -209,6 +221,8 @@ img.card-header-title {
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 50%;
+    justify-content: center;
   }
 }
 
@@ -280,9 +294,6 @@ img.card-header-title {
   }
 }
 
-/* .fa-suitcase-rolling {
-  color: black;
-} */
 .fa-arrow-down-long {
   font-size: 10px;
   margin-left: 10px;
@@ -300,6 +311,54 @@ img.card-header-title {
   justify-content: flex-end;
 }
 
+
+@media screen and (max-width: 1024px) {
+  main {
+    padding: 1.5rem;
+  }
+  #data {
+    margin-top: 2rem;
+  }
+  #tripName {
+    text-align: left;
+  }
+  .cell.d-heading {
+    align-content: center;
+    display: flex;
+  }
+  .fa-arrow-down-long {
+    align-self: center;
+  }
+  .card-header.grid {
+    padding: 5px 10px;
+  }
+  body p{
+    font-size: 13px;
+  }
+  .is-desktop {
+    display: none;
+  }
+  .content.level-left {
+    width: 100%;
+  }
+  .content.level-right {
+    width: 100%;
+  }
+  .grid .card-header-icon {
+    padding: 10px 5px;
+  }
+  .card-content {
+    padding: 0;
+  }
+  #no-data {
+    margin-top: 0;
+}
+
+@media screen and (min-width: 1024px) {
+  .is-mobile {
+    display: none;
+  }
+}
 
 
 /* Added for user Shweta */
