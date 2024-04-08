@@ -22,6 +22,7 @@
   </header>
   <main>
     <div id="no-data" class="hidden has-background-white">
+      <!-- Welcome section -->
       <div class="container">
         <h2 class="has-text-primary">Welcome to your Travel Dashboard</h2>
         <h3>The central location for all your family trip plans.</h3>
@@ -33,17 +34,18 @@
         </ol>
       </div>
     </div>
+    <!-- Section to display the buttons -->
     <div class="button-container">
-    <button id="add-user" type="button" class="add-button has-background-primary-link has-text-black is-hovered">Add
-      User</button>
-    <button id="add-travel" type="button" class="add-button has-background-primary-link has-text-black is-hovered"
-      disabled>Add
-      Travel</button>
-      <button id="show-map" type="button" class="add-button has-background-primary-link has-text-black is-hovered "
-      ><a class="has-text-black" href="#map">Show Map</a></button>
+      <button id="add-user" type="button" class="add-button has-background-primary-link has-text-black is-hovered">Add
+        User</button>
+      <button id="add-travel" type="button" class="add-button has-background-primary-link has-text-black is-hovered"
+        disabled>Add
+        Travel</button>
+      <button id="show-map" type="button" class="add-button has-background-primary-link has-text-black is-hovered "><a
+          class="has-text-black" href="#map">Show Map</a></button>
     </div>
 
-
+    <!-- Start of dashboard display -->
     <div id="data" class="hidden">
       <div id="trip-inner" class="container">
         <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
@@ -62,17 +64,15 @@
             </button>
             <h4 class="cell d-heading">Weather</h4>
           </div>
-
         </div>
         <div class="all-trips" id="all-trips"></div>
-
       </div>
     </div>
 
+    <!-- Section to display map -->
     <div id="map"></div>
 
     <!-- Start Created a modal with a form to add users -->
-
     <div id="dialog-form" class="modal" title="Create new user">
       <div class="modal-content has-background-primary-light">
         <p class="validateTips has-text-black">All form fields are required.</p>
@@ -160,30 +160,12 @@
       </div>
 
     </div>
-
     <!-- End Created a modal with a form to add users -->
 
-    <!-- <div id="data" class="hidden">
-      <div id="trip-inner" class="container">
-        <div class="dashboard-heading fixed-grid has-5-cols has-background-primary">
-          <div class="grid">
-            <h4 class="cell d-heading">Trip Name</h4>
-            <h4 class="cell d-heading">Location</h4>
-            <h4 class="cell d-heading">Time</h4>
-            <h4 class="cell d-heading">Weather</h4>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-    <!-- End Created a modal with a form to add users -->
-
+    <!-- Start Created a modal with a form to add trips -->
     <div id="travelModal" class="modal">
       <div class="modal-content has-background-primary-light">
         <span class="Travelclose">&times;</span>
-        <!-- Add your form fields here -->
-        <!-- <label for="tripName">Trip Name:</label>
-          <input type="text" id="tripName" name="tripName"> -->
         <form>
           <div id="trip-details">
             <div class="field">
@@ -200,28 +182,23 @@
                   placeholder="Enter Destination City">
               </div>
             </div>
-            <!-- user name fields here -->
+
             <div class="field">
-              <!-- <div class="field-label is-normal"> -->
+
               <label class="label has-text-black">Travel Partners</label>
-              <!-- </div> -->
-              <!-- <div class="field-body"> -->
-              <!-- <div class="field is-narrow"> -->
               <div class="control">
                 <div class="select is-fullwidth is-multiple">
                   <select multiple size="4" id="users">
                   </select>
                 </div>
               </div>
-              <!-- </div> -->
-              <!-- </div> -->
+
             </div>
             <div class="level">
               <div class="level-left">
                 <div class="level-item">
                   <div class="field">
                     <label class="label has-text-black" for="startDate">Trip Start Date:</label>
-                    <!-- <input type="date" id="startDate" name="startDate"> -->
                     <input id="startDate" class="input has-background-white has-text-black" type="text" name="startDate"
                       placeholder="Trip Start Date" title="Trip Start Date" required readonly>
                   </div>
@@ -231,7 +208,6 @@
                 <div class="level-item">
                   <div class="field">
                     <label class="label has-text-black" for="endDate">Trip End Date:</label>
-                    <!-- <input type="date" id="endDate" name="endDate"><br> -->
                     <input id="endDate" class="input has-background-white has-text-black" type="text" name="endDate"
                       placeholder="Trip End Date" title="Trip End Date" required readonly>
                   </div>
@@ -243,21 +219,21 @@
         </form>
       </div>
     </div>
+    <!-- End Created a modal with a form to add trips -->
     </div>
   </main>
 
   <footer>
     <p>&copy; <span id="year"></span> Travel Dashboard. All rights reserved to leapFrogs.</p>
   </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-shim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-  <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/isBetween.js"></script>
-
   <script src="assets/js/script.js"></script>
 </body>
 
